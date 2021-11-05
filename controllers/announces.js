@@ -1,19 +1,23 @@
 const AnnouncesModel = require("../models/announces");
 
 exports.createAnnounces = (req, res, next) => {
-    console.log("BODY :" +req.body);
+    //console.log("BODY :" + req.body);
+    //console.log(req.file)
+    
     delete req.body._id;
     const announce = new AnnouncesModel({
       ...req.body,
-      image: `./images/${req.filename}`
+      image: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
       
     });
     announce
       .save()
       .then(() => {
         res.status(201).json({
-          message: "Post saved successfully!",
+          message: "Post saved successfully!"
         });
+      }).then(() => {
+        res.sendfile(`/images/${req.file.filename}`)
       })
       .catch((error) => {
         res.status(400).json({
