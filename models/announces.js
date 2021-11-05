@@ -12,7 +12,8 @@ const announceSchema = mongoose.Schema({
   type: { type: String },
   gross_rent_by_year: { type: Number },
   monthly_cost: { type: Number },
-  image: { type: [String] },
+  //image: { type: [String] },
+  image: { type: Array},
 }, {
   collection: "Announces"
 });

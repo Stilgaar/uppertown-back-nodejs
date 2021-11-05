@@ -7,7 +7,7 @@ exports.createAnnounces = (req, res, next) => {
     delete req.body._id;
     const announce = new AnnouncesModel({
       ...req.body,
-      image: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+      image: `${req.protocol}://${req.get('host')}/images/${req.files.filename}`
       
     });
     announce
@@ -16,9 +16,9 @@ exports.createAnnounces = (req, res, next) => {
         res.status(201).json({
           message: "Post saved successfully!"
         });
-      }).then(() => {
-        res.sendfile(`/images/${req.file.filename}`)
-      })
+      })/*.then(() => {
+        res.sendfile(`/images/${req.files.filename}`)
+      })*/
       .catch((error) => {
         res.status(400).json({
           error: error
