@@ -1,13 +1,17 @@
-const AnnouncesModel = require("../models/announces");
+const Announces = require("../models/announces");
 
 exports.createAnnounces = (req, res, next) => {
     //console.log("BODY :" + req.body);
-    //console.log(req.file)
+    console.log(req?.files[0]?.filename)
     
     delete req.body._id;
-    const announce = new AnnouncesModel({
+    const announce = new Announces({
       ...req.body,
-      image: `${req.protocol}://${req.get('host')}/images/${req.files.filename}`
+      image1: `${req.protocol}://${req.get('host')}/images/${req?.files[0]?.filename}`,
+      image2: `${req.protocol}://${req.get('host')}/images/${req?.files[1]?.filename}`,
+      image3: `${req.protocol}://${req.get('host')}/images/${req?.files[2]?.filename}`
+      
+      //image: `./images/${req.filename}`
       
     });
     announce
@@ -16,9 +20,9 @@ exports.createAnnounces = (req, res, next) => {
         res.status(201).json({
           message: "Post saved successfully!"
         });
-      })/*.then(() => {
-        res.sendfile(`/images/${req.files.filename}`)
-      })*/
+      }).then(() => {
+        res.sendfile(image1)
+      })
       .catch((error) => {
         res.status(400).json({
           error: error
@@ -27,7 +31,7 @@ exports.createAnnounces = (req, res, next) => {
   };
   
   exports.getOneAnnounces = (req, res, next) => {
-    AnnouncesModel.findOne({
+    Announces.findOne({
       _id: req.params.id,
     })
       .then((announce) => {
@@ -41,10 +45,10 @@ exports.createAnnounces = (req, res, next) => {
   };
   
   exports.modifyAnnounces = (req, res, next) => {
-    const announce = new AnnouncesModel({
+    const announce = new Announces({
         ...req.body
     });
-    AnnouncesModel.updateOne({ _id: req.params.id }, announce).then(() => {
+    Announces.updateOne({ _id: req.params.id }, announce).then(() => {
       res.status(201).json({
         message: "Announce updated successfully!",
       });
@@ -58,7 +62,7 @@ exports.createAnnounces = (req, res, next) => {
   };
   
   exports.deleteAnnounces = (req, res, next) => {
-    AnnouncesModel.deleteOne({ _id: req.params.id }).then(() => {
+    Announces.deleteOne({ _id: req.params.id }).then(() => {
       res.status(200).json({
         message: "Deleted!",
       });
@@ -72,7 +76,7 @@ exports.createAnnounces = (req, res, next) => {
   };
 /*const announces = {
   getAnnounces(req, res, next) {
-    AnnouncesModel.find({}).then((announces) => {
+    Announces.find({}).then((announces) => {
       res.send(announces);
     });
   },
@@ -81,7 +85,7 @@ exports.createAnnounces = (req, res, next) => {
 module.exports = announces;*/
 
 exports.getAnnounces = (req, res, next) => {
-    AnnouncesModel.find({}).then((announces) => {
+    Announces.find({}).then((announces) => {
       res.send(announces);
     });
   };
