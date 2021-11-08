@@ -1,22 +1,22 @@
 const mongoose = require('mongoose');
 
 const announceSchema = mongoose.Schema({
-  title: { type: String },
-  content: { type: String }, 
-  city: { type: String },
-  price: { type: Number },
-  share_price: { type: Number },
-  share_number: { type: Number },
-  zip_code: { type: String },
-  region: { type: String },
-  type: { type: String },
-  gross_rent_by_year: { type: Number },
-  monthly_cost: { type: Number },
-  created_at : Date,
-  image: {type: [String]},
-  image1: { type: String, required:false },
-  image2: { type: String, required:false },
+  title: { type: String, required:false },
+  content: { type: String, required:false }, 
+  city: { type: String, required:false },
+  price: { type: Number, required:false },
+  share_price: { type: Number, required:false },
+  share_number: { type: Number, required:false },
+  zip_code: { type: String, required:false },
+  region: { type: String, required:false },
+  type: { type: String, required:false},
+  gross_rent_by_year: { type: Number, required:false},
+  monthly_cost: { type: Number, required:false},
+  //created_at : Date,
+  image: {type: Array, required:false},
+  /*image2: { type: String, required:false },
   image3: { type: String, required:false },
+  image4: { type: String, required:false },*/
  
   //gallery: {type: Array, required:false}
 }, {
