@@ -9,6 +9,7 @@ router.get('/token', userCtrl.getToken);
 router.patch('/modifyUser', userCtrl.modifyData);
 router.put('/:id', userCtrl.modifyUser);
 router.get('/:id', userCtrl.getOneUser); // fait planter les routes qu'on mets derrière
+router.get('/stableCoins', userCtrl.getCoins);
 
 module.exports = router;
 

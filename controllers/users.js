@@ -156,7 +156,27 @@ exports.modifyData = (req, res, next) => {
 }
 
 
+exports.getCoins = (req, res, next) => {
+  Users.findOne({
+    _id: req.params.id
+  })
+    .then((user) => {
+      user.stableCoins=req.body.stableCoins
+    })
+      user.updateOne({
+        stableCoins: user.stableCoins
+      }, function (err, result) {
+        if (err) {
+          res.status(500).json({ message: "Votre compte n'a pu être crédité" })
+        } else {
+          res.json({ message: "Votre compte a été crédité"})
+        }
+      })
 
+
+
+
+}
 
 
 
