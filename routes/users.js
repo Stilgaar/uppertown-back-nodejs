@@ -7,6 +7,7 @@ router.post('/login', userCtrl.login);
 router.get('/users', userCtrl.getAllUsers);
 router.get('/token', userCtrl.getToken);
 router.patch('/modifyUser', userCtrl.modifyData);
+router.post('/addCoins', userCtrl.getCoins);
 router.put('/:id', userCtrl.modifyUser);
 router.get('/:id', userCtrl.getOneUser); // fait planter les routes qu'on mets derrière
 
