@@ -9,7 +9,7 @@ const userSchema = mongoose.Schema({
   tel: {type: String},
   password: { type: String},
   userType:{type: String, default :"userType1"},
-  stableCoins: { type: Number }, 
+  stableCoins: { type: Number, default: 0 }, 
   pi: {type: String, default:""}, // piece identité
   JDD: {type: String, default: ""}, // justificatif domicile
   avisFiscal: {type: String, default: ""}, // avis fiscal
