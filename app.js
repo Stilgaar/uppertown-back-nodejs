@@ -10,6 +10,7 @@ require("./db_connect");
 var indexRouter = require('./routes/index');
 const usersRouter = require("./routes/users");
 const announcesRouter = require("./routes/announces");
+const transacRouter = require("./routes/transactions");
 const uploads = require("./routes/upload");
 
 var app = express();
@@ -22,6 +23,7 @@ app.use(cookieParser());
 
 app.use("/api/users", usersRouter); // Acces aux données
 app.use("/api/announces", announcesRouter);
+app.use("/api/transactions", transacRouter);
 app.use("/up", uploads);
 
 //Les routes
