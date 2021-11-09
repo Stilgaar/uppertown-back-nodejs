@@ -8,10 +8,15 @@ const userSchema = mongoose.Schema({
   email: { type: String},
   tel: {type: String},
   password: { type: String},
+  rib: {type: Array},
+  adress: {type:String}, 
   userType:{type: String, default :"userType1"}, 
-  pi: {type: String, default:""}, // piece identité
-  JDD: {type: String, default: ""}, // justificatif domicile
-  avisFiscal: {type: String, default: ""}, // avis fiscal
+  pi: {type: Array }, 
+  JDD: {type: Array}, 
+  avisFiscal: {type: Array}, 
+  stableCoins: {type: Number, default: 0},
+  picrib: {type:Array}
+  
 });
 
 const UserModel = mongoose.model('Users', userSchema)
