@@ -3,6 +3,8 @@ const mongoose = require('mongoose');
 const announceSchema = mongoose.Schema({
   title: { type: String },
   content: { type: String }, 
+  bedrooms: { type: String },
+  surface: { type: String },
   city: { type: String },
   price: { type: Number },
   share_price: { type: Number },
