@@ -144,17 +144,36 @@ exports.modifyUser = (req, res, next) => {
 };
 
 exports.modifyData = (req, res, next) => {
-  let { email, newfirstname, newlastname, newemail, newtel, newbrandname, newadress, piname, JDD, avisFiscal } = req.body;
+
+  let { email,
+    newfirstname,
+    newlastname,
+    newemail,
+    newtel,
+    newbrandname,
+    newadress,
+    newRib
+    } = req.body;
 
   Users.findOneAndUpdate({ email: email }
-    , { $set: { firstname: newfirstname, lastname: newlastname, email: newemail, tel: newtel, brandname: newbrandname, adress: newadress, pi: piname, JDD: JDD, avisFiscal: avisFiscal } }
-    , { new: true }
+    , {
+      $set: {
+        firstname: newfirstname,
+        lastname: newlastname,
+        email: newemail,
+        tel: newtel,
+        brandname: newbrandname,
+        adress: newadress,
+        
+      }, 
+      $push: { rib: newRib }
+    }
+     , { new: true }
     , (err, change) => {
       if (err) { res.send(err) }
       else { res.send(change) }
     })
-}
-
+},
 
 exports.getCoins = (req, res, next) => {
   Users.findOne({
