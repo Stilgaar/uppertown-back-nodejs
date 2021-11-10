@@ -17,11 +17,6 @@ const announceSchema = mongoose.Schema({
   surface:{type:Number},
   created_at : Date,
   image: {type: Array, required:false},
-  /*image2: { type: String, required:false },
-  image3: { type: String, required:false },
-  image4: { type: String, required:false },*/
- 
-  //gallery: {type: Array, required:false}
 }, {
   collection: "Announces"
 });
