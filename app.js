@@ -12,6 +12,7 @@ const usersRouter = require("./routes/users");
 const announcesRouter = require("./routes/announces");
 const transacRouter = require("./routes/transactions");
 const uploads = require("./routes/upload");
+const admin = require("./routes/admin");
 
 var app = express();
 app.use('/images', express.static(path.join(__dirname, 'images')));
@@ -26,6 +27,7 @@ app.use("/api/users", usersRouter); // Acces aux données
 app.use("/api/announces", announcesRouter);
 app.use("/api/transactions", transacRouter);
 app.use("/up", uploads);
+app.use("/admin", admin)
 
 //Les routes
 app.use('/', indexRouter);
