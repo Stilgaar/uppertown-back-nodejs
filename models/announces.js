@@ -1,22 +1,6 @@
 const mongoose = require('mongoose');
 
 const announceSchema = mongoose.Schema({
-<<<<<<< HEAD
-  title: { type: String },
-  content: { type: String }, 
-  bedrooms: { type: String },
-  surface: { type: String },
-  city: { type: String },
-  price: { type: Number },
-  share_price: { type: Number },
-  share_number: { type: Number },
-  zip_code: { type: String },
-  region: { type: String },
-  type: { type: String },
-  gross_rent_by_year: { type: Number },
-  monthly_cost: { type: Number },
-  image: { type: [String] },
-=======
   title: { type: String, required:false },
   content: { type: String, required:false }, 
   city: { type: String, required:false },
@@ -38,7 +22,6 @@ const announceSchema = mongoose.Schema({
   image4: { type: String, required:false },*/
  
   //gallery: {type: Array, required:false}
->>>>>>> 68af133c0d96d5c526addc15b5b170e5f97b7390
 }, {
   collection: "Announces"
 });
