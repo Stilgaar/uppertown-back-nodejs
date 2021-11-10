@@ -11,11 +11,11 @@ exports.signup = (req, res, next) => {
   let { firstname, lastname, brandname, email, tel, password, verifpassword } = req.body;
 
   if (!firstname || !lastname || !email || !tel || !password || !verifpassword) {
-    return res.sendStatus(400);
+    return res.send("empty")
   }
 
   if (password !== verifpassword) {
-    return res.sendStatus(401);
+    return res.send("password")
   }
 
   return Users.findOne({ email: email }).then((emailAlreadyHere) => {
@@ -33,10 +33,10 @@ exports.signup = (req, res, next) => {
         password: hashed
       }).then((newUser) => {
         console.log(newUser)
-        return res.sendStatus(200);
+        return res.send("ok")
       }).catch((err) => console.log(err))
     };
-    return res.sendStatus(403);
+    return res.send("mail");
   });
 
 };
@@ -144,17 +144,36 @@ exports.modifyUser = (req, res, next) => {
 };
 
 exports.modifyData = (req, res, next) => {
-  let { email, newfirstname, newlastname, newemail, newtel, newbrandname, newadress, piname, JDD, avisFiscal } = req.body;
+
+  let { email,
+    newfirstname,
+    newlastname,
+    newemail,
+    newtel,
+    newbrandname,
+    newadress,
+    newRib
+    } = req.body;
 
   Users.findOneAndUpdate({ email: email }
-    , { $set: { firstname: newfirstname, lastname: newlastname, email: newemail, tel: newtel, brandname: newbrandname, adress: newadress, pi: piname, JDD: JDD, avisFiscal: avisFiscal } }
-    , { new: true }
+    , {
+      $set: {
+        firstname: newfirstname,
+        lastname: newlastname,
+        email: newemail,
+        tel: newtel,
+        brandname: newbrandname,
+        adress: newadress,
+        
+      }, 
+      $push: { rib: newRib }
+    }
+     , { new: true }
     , (err, change) => {
       if (err) { res.send(err) }
       else { res.send(change) }
     })
-}
-
+},
 
 exports.getCoins = (req, res, next) => {
   Users.findOne({
