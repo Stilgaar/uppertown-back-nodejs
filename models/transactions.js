@@ -1,13 +1,14 @@
 const mongoose = require('mongoose');
 
 const transacSchema = mongoose.Schema({
-  announceId: { type: Number}, 
-  userId: { type: Number},
-  token:{type: Number},  
+  announceId: { type: String}, 
+  userId: { type: String},
+  token:{type: String},  
   sc: {type: Number},
-  date: Date
+  created_at : Date 
 });
+
 
 const TransacModel = mongoose.model('Transactions', transacSchema)
 
-module.exports = TransacModel
+module.exports = TransacModel;

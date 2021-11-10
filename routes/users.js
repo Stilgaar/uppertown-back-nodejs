@@ -8,8 +8,8 @@ router.get('/users', userCtrl.getAllUsers);
 router.get('/token', userCtrl.getToken);
 router.patch('/modifyUser', userCtrl.modifyData);
 router.post('/addCoins', userCtrl.getCoins);
-router.put('/:id', userCtrl.modifyUser);
-router.get('/:id', userCtrl.getOneUser); // fait planter les routes qu'on mets derrière
+router.put('/:id', userCtrl.modifySC);//modifie la valeur du portefeuille
+router.get('/:id', userCtrl.getOneUser); 
 
 module.exports = router;
 

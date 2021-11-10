@@ -6,6 +6,6 @@ router.post('/buy', transacCtrl.createTransactions);
 router.get('/history', transacCtrl.getTransactions);
 router.get('/:id', transacCtrl.getOneTransactions);
 router.put('/:id', transacCtrl.updateTransactions);
-router.delete('/:id', transacCtrl.deleteTransactions); // fait planter les routes qu'on mets derrière
+router.delete('/:id', transacCtrl.deleteTransactions); 
 
 module.exports = router;
