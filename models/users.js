@@ -15,7 +15,10 @@ const userSchema = mongoose.Schema({
   JDD: {type: Array}, 
   avisFiscal: {type: Array}, 
   stableCoins: {type: Number, default: 0},
-  picrib: {type:Array}
+  picrib: {type:Array},
+  montant:{type:Array},
+  ancientMontants:{type:Array},
+  awaiting:{type:Boolean, default:false}
   
 });
 
