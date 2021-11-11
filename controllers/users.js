@@ -153,7 +153,7 @@ exports.modifyData = (req, res, next) => {
     newbrandname,
     newadress,
     newRib
-    } = req.body;
+  } = req.body;
 
   Users.findOneAndUpdate({ email: email }
     , {
@@ -164,34 +164,81 @@ exports.modifyData = (req, res, next) => {
         tel: newtel,
         brandname: newbrandname,
         adress: newadress,
-        
-      }, 
+
+      },
       $push: { rib: newRib }
     }
-     , { new: true }
+    , { new: true }
     , (err, change) => {
       if (err) { res.send(err) }
       else { res.send(change) }
     })
 },
 
-exports.getCoins = (req, res, next) => {
-  Users.findOne({
-    _id: req.body.id
-  })
-    .then((user) => {
-    
-      user.updateOne({
-        stableCoins: (Number(user.stableCoins) + Number(req.body.stableCoins))
-      }, function (err, result) {
-        if (err) {
-          res.status(500).json({ message: "Votre compte n'a pu être crédité" })
-        } else {
-          res.json({ message: "Votre compte a été crédité"})
-        }
-      })
+  exports.getCoins = (req, res, next) => {
+    Users.findOne({
+      _id: req.body.id
     })
-}
+      .then((user) => {
+
+        user.updateOne({
+          stableCoins: (Number(user.stableCoins) + Number(req.body.stableCoins))
+        }, function (err, result) {
+          if (err) {
+            res.status(500).json({ message: "Votre compte n'a pu être crédité" })
+          } else {
+            res.json({ message: "Votre compte a été crédité" })
+          }
+        })
+      })
+  },
+
+  exports.addMoney = (req, res, next) => {
+
+    let { email, montant } = req.body;
+    if (!montant) { res.send(err) }
+    let newMontant = montant + '€' + ' ' + new Date().getTime()
+    Users.findOneAndUpdate({ email: email }, { $push: { montant: newMontant }, $set: { awaiting: true } }, { new: true }, (err, money) => {
+      if (err) { res.send(err) }
+      else res.send(money)
+    }
+    )
+  },
+
+  exports.archiveMoney = (req, res, next) => {
+
+    let { email, argent } = req.body;
+
+    let newArgent = argent + ' transferé le ' + new Date().getTime()
+    
+    Users.findOneAndUpdate({email: email}
+      , {
+        $pull: { montant: argent }, 
+        $push: { ancientMontants: newArgent }
+      },
+      { new: true },
+      (err, archive) => {
+        if (err) { res.send(err) }
+        else { res.send(archive) }
+      }
+    )
+  },
+
+  exports.transactionDone = (req, res, next) => {
+    
+    let email = req.body;
+
+    Users.findOneAndUpdate({email: email.data},
+      {$set: {awaiting: false}},
+      {new:true},
+      (err, udpateAwaiting) => {
+        if(err) {res.send(err)}
+        else [res.send(udpateAwaiting)]
+      }
+      
+      )
+    
+  }
 
 
 
