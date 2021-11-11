@@ -12,13 +12,11 @@ const announceSchema = mongoose.Schema({
   type: { type: String, required:false},
   gross_rent_by_year: { type: Number, required:false},
   monthly_cost: { type: Number, required:false},
-  //created_at : Date,
+  options:{type:Array},
+  bedrooms:{type:Number},
+  surface:{type:Number},
+  created_at : Date,
   image: {type: Array, required:false},
-  /*image2: { type: String, required:false },
-  image3: { type: String, required:false },
-  image4: { type: String, required:false },*/
- 
-  //gallery: {type: Array, required:false}
 }, {
   collection: "Announces"
 });

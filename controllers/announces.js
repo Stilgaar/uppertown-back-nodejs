@@ -1,14 +1,16 @@
 const Announces = require("../models/announces");
 
 exports.createAnnounces = (req, res, next) => {
-  console.log(req?.files[0]?.filename);
+  //console.log(req?.files[0]?.filename);
   delete req.body._id;
   const announce = new Announces({
     
     ...req.body,
+
     /*image:[`${req.protocol}://${req.get('host')}/images/${req?.files[0]?.filename}`,
      `${req.protocol}://${req.get('host')}/images/${req?.files[1]?.filename}`,
     `${req.protocol}://${req.get('host')}/images/${req?.files[2]?.filename}`]*/
+    
     image: {
       
       image1: `${req.protocol}://${req.get("host")}/images/${
@@ -74,6 +76,9 @@ exports.modifyAnnounces = (req, res, next) => {
     announce.city = req.body.city
     announce.region = req.body.region
     announce.zip_code = req.body.zip_code
+    announce.bedrooms = req.body.bedrooms
+    announce.surface = req.body.surface
+    announce.options = req.body.options
 
     announce.updateOne({
       ...req.body
@@ -107,16 +112,6 @@ exports.deleteAnnounces = (req, res, next) => {
       });
     });
 };
-/*const announces = {
-  getAnnounces(req, res, next) {
-    Announces.find({}).then((announces) => {
-      res.send(announces);
-    });
-  },
-};
-
-module.exports = announces;*/
-
 exports.getAnnounces = (req, res, next) => {
   Announces.find({}).then((announces) => {
     res.send(announces);
