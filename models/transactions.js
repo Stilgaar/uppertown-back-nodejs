@@ -5,6 +5,7 @@ const transacSchema = mongoose.Schema({
   userId:{type: String},
   token:{type: String}, 
   sc:{type: Number},
+  type: {type:String},
   created_at : Date 
 });
 

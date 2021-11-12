@@ -112,6 +112,7 @@ exports.deleteAnnounces = (req, res, next) => {
       });
     });
 };
+
 exports.getAnnounces = (req, res, next) => {
   Announces.find({}).then((announces) => {
     res.send(announces);
