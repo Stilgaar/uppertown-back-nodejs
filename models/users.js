@@ -8,20 +8,20 @@ const userSchema = mongoose.Schema({
   email: { type: String},
   tel: {type: String},
   password: { type: String},
-  rib: {type: Array},
+  rib: {type: Array, default:[]},
   adress: {type:String}, 
   userType:{type: String, default :"userType1"}, 
-  pi: {type: Array}, 
-  JDD: {type: Array}, 
-  avisFiscal: {type: Array}, 
+  pi: {type: Array, default:[]}, 
+  JDD: {type: Array, default:[]}, 
+  avisFiscal: {type: Array, default:[]}, 
   stableCoins: {type: Number, default: 0},
-  picrib: {type:Array},
-  montant:{type:Array},
-  ancientMontants:{type:Array},
+  picrib: {type:Array, default:[]},
+  montant:{type:Array, default:[]},
+  ancientMontants:{type:Array, default:[]},
   awaiting:{type:Boolean, default:false},
   awaitingEuro:{type: Boolean, default:false},
-  montantEuro:{type:Array},
-  ancientMontantsEuro:{type:Array}
+  montantEuro:{type:Array, default:[]},
+  ancientMontantsEuro:{type:Array, default:[]}
 });
 
 const UserModel = mongoose.model('Users', userSchema)
