@@ -16,7 +16,7 @@ const announceSchema = mongoose.Schema({
   bedrooms:{type:Number, required:false},
   surface:{type:Number, required:false},
   created_at : Date,
-  image: {type: Array, required:false}
+  image: {type: Array, required:false},
 }, {
   collection: "Announces"
 });
