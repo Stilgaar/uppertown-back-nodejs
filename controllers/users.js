@@ -197,55 +197,85 @@ exports.modifyData = (req, res, next) => {
 
     let { email, montant } = req.body;
     if (!montant) { res.send(err) }
-    let newMontant = montant + '€' + ' ' + new Date().getTime()
-    Users.findOneAndUpdate({ email: email }, { $push: { montant: newMontant }, $set: { awaiting: true } }, { new: true }, (err, money) => {
-      if (err) { res.send(err) }
-      else res.send(money)
-    }
-    )
+    Users.findOneAndUpdate({ email: email }
+      , {
+        $push: { montant: `Demande de ${montant} StableCoins FAIT LE ${new Date}` }
+        , $set: { awaiting: true }
+      }
+      , { new: true }, (err, money) => {
+        if (err) { res.send(err) }
+        else res.send(money)
+      })
   },
 
   exports.archiveMoney = (req, res, next) => {
-
     let { email, argent } = req.body;
-
-    let newArgent = argent + ' transferé le ' + new Date().getTime()
-    
-    Users.findOneAndUpdate({email: email}
+    Users.findOneAndUpdate({ email: email }
       , {
-        $pull: { montant: argent }, 
-        $push: { ancientMontants: newArgent }
+        $pull: { montant: argent },
+        $push: { ancientMontants: `${argent} TRANSFERT FAIT LE ${new Date}` }
       },
       { new: true },
       (err, archive) => {
         if (err) { res.send(err) }
         else { res.send(archive) }
-      }
-    )
+      })
+  },
+
+  exports.archiveEuros = (req, res, next) => {
+   let {id, argent} = req.body;
+
+  Users.findOneAndUpdate({ _id: id }
+    , {
+      $pull: { montantEuro: argent },
+      $push: { ancientMontantsEuro: `${argent} TRANSFERT FAIT LE ${new Date}` }
+    }
+    ,
+    { new: true },
+    (err, archiveEuro) => {
+      if (err) { res.send(err) }
+      else { res.send(archiveEuro) }
+    }
+  )
   },
 
   exports.transactionDone = (req, res, next) => {
-    
     let email = req.body;
-
-    Users.findOneAndUpdate({email: email.data},
-      {$set: {awaiting: false}},
-      {new:true},
+    Users.findOneAndUpdate({ email: email.data },
+      { $set: { awaiting: false } },
+      { new: true },
       (err, udpateAwaiting) => {
-        if(err) {res.send(err)}
-        else [res.send(udpateAwaiting)]
-      }
-      
-      )
-    
+        if (err) { res.send(err) }
+        else { res.send(udpateAwaiting) }
+      })
+  },
+
+  exports.transtactionEuroDone = (req,res,next) => {
+    let id = req.body
+    Users.findOneAndUpdate({ _id: id.data },
+      { $set: { awaitingEuro: false } },
+      { new: true },
+      (err, udpateAwaitingEuro) => {
+        if (err) { res.send(err) }
+        else { res.send(udpateAwaitingEuro) }
+      })
+  },
+
+  exports.askMoney = (req, res, next) => {
+    let { change, theRib, id, currentStable } = req.body;
+   
+    if (change >= currentStable) {res.send('error')} 
+    else {
+      let newChange = parseInt(change)
+    Users.findOneAndUpdate({ _id: id },
+      {
+        $set: { awaitingEuro: true, stableCoins: currentStable - newChange },
+        $push: { montantEuro: `Virement de ${change}€ sur le RIB suivant : ${theRib} le ${new Date}` }
+      },
+      { new: true },
+      (err, updateTransfert) => {
+        if (err) { res.send(err) }
+        else { res.send(updateTransfert) }
+      }) }
+
   }
-
-
-
-
-
-
-
-
-
-

@@ -17,36 +17,33 @@ function checkFileType(file, cb) {
     const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
     const mimetype = filetypes.test(file.mimetype);
 
-    if (mimetype && extname) {
+    if (mimetype && extname) { 
         return cb(null, true)
     } else {
         cb(null, false)
-    } }
+    }}
 
 const uppingImage = multer({
     storage: storageImages,
     limit: { fileSize: 1000000000 },
     fileFilter: function (req, file, cb) {
         checkFileType(file, cb);
-    }
-}).array('image', 5)
+    } }).array('image', 5)
 
 const annoncejeff = {
 
     createAnnounces(req, res) {
 
         uppingImage(req, res, (err) => {
-               
-            console.log(req.files[0].filename)
 
             let { title, content, city, zip_code, region, type,
                 bedrooms, surface, price, share_price, gross_rent_by_year,
                 monthly_cost, piscine, tennis, jardin, parking, jaccuzi } = req.body;
 
-                if (err) { res.send(err) }
-                else {
+            if (err) { res.send(err) }
+            else {
 
-                 Announces.create({
+                Announces.create({
                     title,
                     content,
                     city,
@@ -60,12 +57,7 @@ const annoncejeff = {
                     gross_rent_by_year,
                     monthly_cost,
                     options: [piscine, tennis, jardin, parking, jaccuzi],
-                    image : [ `http://localhost:1337/image/${req.files[0]?.filename}`
-                    , `http://localhost:1337/image/${req.files[1]?.filename}`
-                    , `http://localhost:1337/image/${req.files[2]?.filename}`
-                    , `http://localhost:1337/image/${req.files[3]?.filename}`
-                    , `http://localhost:1337/image/${req.files[4]?.filename}`  ]
-
+                    image: req.files.map((images) => `${req.protocol}://${req.get("host")}/image/${images.filename}`)
                 }).then(() => {
                     res.status(201).json({
                         message: "Post saved successfully!",
@@ -76,7 +68,9 @@ const annoncejeff = {
                             error: error,
                         });
                     });
-                }
-} )}}
+            }
+        })
+    }
+}
 
 module.exports = annoncejeff;
