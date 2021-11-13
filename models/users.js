@@ -11,15 +11,17 @@ const userSchema = mongoose.Schema({
   rib: {type: Array},
   adress: {type:String}, 
   userType:{type: String, default :"userType1"}, 
-  pi: {type: Array }, 
+  pi: {type: Array}, 
   JDD: {type: Array}, 
   avisFiscal: {type: Array}, 
   stableCoins: {type: Number, default: 0},
   picrib: {type:Array},
   montant:{type:Array},
   ancientMontants:{type:Array},
-  awaiting:{type:Boolean, default:false}
-  
+  awaiting:{type:Boolean, default:false},
+  awaitingEuro:{type: Boolean, default:false},
+  montantEuro:{type:Array},
+  ancientMontantsEuro:{type:Array}
 });
 
 const UserModel = mongoose.model('Users', userSchema)
