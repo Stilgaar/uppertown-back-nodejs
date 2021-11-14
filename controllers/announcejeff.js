@@ -38,12 +38,13 @@ const annoncejeff = {
 
             let { title, content, city, zip_code, region, type,
                 bedrooms, surface, price, share_price, gross_rent_by_year,
-                monthly_cost, piscine, tennis, jardin, parking, jaccuzi } = req.body;
+                monthly_cost, piscine, tennis, jardin, parking, jaccuzi, share_number } = req.body;
 
             if (err) { res.send(err) }
             else {
 
                 Announces.create({
+                    share_number,
                     title,
                     content,
                     city,
