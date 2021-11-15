@@ -11,6 +11,7 @@ router.post('/noAdmin', admin.noAdmin)
 
 router.post('/newRib', adminData.addRib)
 router.get('/getRib', adminData.getRib)
+router.post('/maintext', adminData.addAdminText)
 
 
 module.exports = router;

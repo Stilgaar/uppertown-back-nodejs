@@ -37,12 +37,31 @@ const adminData = {
             })
     },
 
-    getRib(req, res, newt) {
+    getRib(req, res, next) {
         AdminModel.find()
             .then((rib) => res.status(200).json(rib))
             .catch((err) => res.send)
-    }
+    },
 
+
+    addAdminText(req,res,next) {
+        let {maintitle, maincontent} = req.body; 
+        if (!maintitle || !maincontent) {return res.send('empty')}
+
+        return AdminModel.findOneAndUpdate({ lerib:"01" },
+        { $set: {maintitle: maintitle
+            , maincontent: maincontent} }
+            ,{new: true}
+            ,(err, updateMain) => {
+                if (err) AdminModel.create({
+                    mainpage,
+                    maintitle,
+                    maincontent
+                }).then((newMain) => res.send(newMain))
+                .catch((err) => res.send(err))
+                else {res.send(updateMain)}
+            }
+        )}
 }
 
 module.exports = adminData;
