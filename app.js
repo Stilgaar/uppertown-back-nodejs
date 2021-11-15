@@ -12,6 +12,7 @@ const usersRouter = require("./routes/users");
 const announcesRouter = require("./routes/announces");
 const transacRouter = require("./routes/transactions");
 const propertiesRouter = require("./routes/properties");
+const salesRouter = require("./routes/sales");
 const uploads = require("./routes/upload");
 const admin = require("./routes/admin");
 
@@ -29,6 +30,7 @@ app.use("/api/users", usersRouter); // Acces aux données
 app.use("/api/announces", announcesRouter);
 app.use("/api/transactions", transacRouter);
 app.use("/api/properties", propertiesRouter);
+app.use("/api/sales", salesRouter);
 app.use("/up", uploads);
 app.use("/admin", admin)
 

@@ -25,17 +25,32 @@ exports.createProperties = (req, res, next) => {
 
 exports.getOneProperties = (req, res, next) => {
     Properties.findOne({
+    //voir à supprimer le premier paramètres partout :  
     userId: req.params.id,
     announceId: req.params.announceid
   })
     .then((properties) => {
       res.status(200).json(properties);
-    })
+    }) 
     .catch((error) => {
       res.status(404).json({
         error: error,
       });
     });
+};
+
+exports.getEachPropertiesList = (req, res, next) => {
+  Properties.findOne({
+  userId: req.params.id
+})
+  .then((properties) => {
+    res.status(200).json(properties);
+  }) 
+  .catch((error) => {
+    res.status(404).json({
+      error: error,
+    });
+  });
 };
 
 exports.existsProperties = (req, res, next) => {
