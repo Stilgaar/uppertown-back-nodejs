@@ -118,19 +118,14 @@ exports.getToken = (req, res, next) => {
   })
 };
 
-exports.modifyUser = (req, res, next) => {
+exports.modifySC = (req, res, next) => {
   Users.findOne({
     _id: req.params.id,
   })
     .then((user) => {
-      user.cni = req.body.cni
-      user.adress = req.body.adress
-      user.avisfisc = req.body.avisfisc
-
+      user.stableCoins = req.body.stableCoins
       user.updateOne({
-        cni: user.cni,
-        adress: user.adress,
-        avisfisc: user.avisfisc
+        stableCoins: user.stableCoins
       }, function (err, result) {
         if (err) {
           // console.log(err)

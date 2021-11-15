@@ -81,7 +81,7 @@ exports.modifyAnnounces = (req, res, next) => {
     announce.options = req.body.options
 
     announce.updateOne({
-      ...req.body
+      share_number : req.body.share_number
     }, function (err, result) {
       if (err) {
         // console.log(err)
@@ -112,6 +112,7 @@ exports.deleteAnnounces = (req, res, next) => {
       });
     });
 };
+
 exports.getAnnounces = (req, res, next) => {
   Announces.find({}).then((announces) => {
     res.send(announces);

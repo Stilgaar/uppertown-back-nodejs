@@ -1,13 +1,11 @@
 const Transactions = require("../models/transactions");
 
 exports.createTransactions = (req, res, next) => {
-  //console.log(req?.files[0]?.filename);
+  console.log(req?.body);
   delete req.body._id;
   const transaction = new Transactions({
-    
     ...req.body,
-
-  });
+});
   transaction
     .save()
     .then(() => {
