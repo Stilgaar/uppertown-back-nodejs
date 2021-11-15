@@ -11,6 +11,10 @@ const adminSchema = mongoose.Schema({
     bicSwift: { type: String , default :""},
     titulaire: { type: String , default :""},
     domiciliation: { type: String , default :""},
+    mainpage:{type:String, default: "02"},
+    maintitle: {type:String, default:""},
+    maincontent: {type: String, default: ""}
+
 
 });
 const AdminModel = mongoose.model('Admin', adminSchema)
