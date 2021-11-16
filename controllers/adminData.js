@@ -46,7 +46,6 @@ const adminData = {
 
     addAdminText(req,res,next) {
         let {maintitle, maincontent} = req.body; 
-        if (!maintitle || !maincontent) {return res.send('empty')}
 
         return AdminModel.findOneAndUpdate({ lerib:"01" },
         { $set: {maintitle: maintitle
