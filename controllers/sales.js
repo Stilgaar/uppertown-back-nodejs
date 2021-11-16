@@ -1,12 +1,12 @@
-const Transactions = require("../models/transactions");
+const Sales = require("../models/sales");
 
-exports.createTransactions = (req, res, next) => {
+exports.createSales = (req, res, next) => {
   console.log(req?.body);
   delete req.body._id;
-  const transaction = new Transactions({
+  const sale = new Sales({
     ...req.body,
 });
-  transaction
+  sale
     .save()
     .then(() => {
       res.status(201).json({
@@ -20,12 +20,12 @@ exports.createTransactions = (req, res, next) => {
     });
 };
 
-exports.getOneTransactions = (req, res, next) => {
-  Transactions.findOne({
+exports.getOneSales = (req, res, next) => {
+  Sales.findOne({
     _id: req.params.id,
   })
-    .then((transaction) => {
-      res.status(200).json(transaction);
+    .then((sale) => {
+      res.status(200).json(sale);
     })
     .catch((error) => {
       res.status(404).json({
@@ -34,20 +34,19 @@ exports.getOneTransactions = (req, res, next) => {
     });
 };
 
-exports.updateTransactions = (req, res, next) => {
+exports.updateSales = (req, res, next) => {
   console.log(req.body);
-  //PETITE ERREUR SANS IMPORTANCE QUE J'AI QD MEME CORRIGE. A ACCEPTER :
-  Transactions.findOne({
+  Sales.findOne({
     _id: req.params.id,
   })
-  .then((transaction) => {
-    transaction.announceId = req.body.announceId
-    transaction.userId = req.body.userId
-    transaction.token = req.body.token
-    transaction.sc = req.body.sc
-    transaction.date = Date
+  .then((sale) => {
+    sale.announceId = req.body.announceId
+    sale.userId = req.body.userId
+    sale.token = req.body.token
+    sale.sc = req.body.sc
+    sale.date = Date
 
-    transaction.updateOne({
+    sale.updateOne({
       ...req.body
     }, function (err, result) {
       if (err) {
@@ -61,8 +60,8 @@ exports.updateTransactions = (req, res, next) => {
   });
 };
 
-exports.deleteTransactions = (req, res, next) => {
-  Transactions.deleteOne({ _id: req.params.id })
+exports.deleteSales = (req, res, next) => {
+  Sales.deleteOne({ _id: req.params.id })
     .then(() => {
       res.status(200).json({
         message: "Deleted!",
@@ -74,8 +73,8 @@ exports.deleteTransactions = (req, res, next) => {
       });
     });
 };
-exports.getTransactions = (req, res, next) => {
-  Transactions.find({}).then((transaction) => {
-    res.send(transaction);
+exports.getSales = (req, res, next) => {
+  Sales.find({}).then((sale) => {
+    res.send(sale);
   });
 };

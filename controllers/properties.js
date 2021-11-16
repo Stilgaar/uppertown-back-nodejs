@@ -25,17 +25,32 @@ exports.createProperties = (req, res, next) => {
 
 exports.getOneProperties = (req, res, next) => {
     Properties.findOne({
-    userId: req.params.id,
+    //CORRECTION IMPORTANTE A CONSERVER :  
+    idUser: req.params.id,//ICI
     announceId: req.params.announceid
   })
     .then((properties) => {
       res.status(200).json(properties);
-    })
+    }) 
     .catch((error) => {
       res.status(404).json({
         error: error,
       });
     });
+};
+
+exports.getEachPropertiesList = (req, res, next) => {
+  Properties.findOne({
+  userId: req.params.id
+})
+  .then((properties) => {
+    res.status(200).json(properties);
+  }) 
+  .catch((error) => {
+    res.status(404).json({
+      error: error,
+    });
+  });
 };
 
 exports.existsProperties = (req, res, next) => {
@@ -56,7 +71,7 @@ exports.existsProperties = (req, res, next) => {
 exports.modifyProperties = (req, res, next) => {
   console.log(req.body);
   Properties.findOne({
-  userId: req.params.id,
+  idUser: req.params.id,
   announceId: req.params.announceid
   })
   .then((properties) => {
