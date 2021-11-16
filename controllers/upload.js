@@ -2,6 +2,7 @@
 const multer = require('multer');
 const path = require('path');
 const Users = require('../models/users');
+const Announce = require('../controllers/announces')
 
 const storageid = multer.diskStorage({
     destination: `private/upload/id`,
@@ -87,7 +88,7 @@ const upload = {
             else {
                 if (req.file == undefined) { res.send(err) }
                 else (Users.findOneAndUpdate({ email: email }
-                    , { $push: { pi: `http://localhost:1337/private/upload/id/${req.file.filename}` } }
+                    , { $push: { pi: `http://localhost:1337/private/upload/id/${req.file.filename}` }, }
                     , { new: true }
                     , (err, change) => {
                         if (err) { res.send(err) }
