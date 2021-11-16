@@ -71,7 +71,7 @@ exports.existsProperties = (req, res, next) => {
 exports.modifyProperties = (req, res, next) => {
   console.log(req.body);
   Properties.findOne({
-  userId: req.params.id,
+  idUser: req.params.id,
   announceId: req.params.announceid
   })
   .then((properties) => {
