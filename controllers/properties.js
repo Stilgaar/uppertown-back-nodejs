@@ -26,7 +26,7 @@ exports.createProperties = (req, res, next) => {
 exports.getOneProperties = (req, res, next) => {
     Properties.findOne({
     //voir à supprimer le premier paramètres partout :  
-    userId: req.params.id,
+    idUser: req.params.id,
     announceId: req.params.announceid
   })
     .then((properties) => {
