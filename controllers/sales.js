@@ -1,7 +1,6 @@
 const Sales = require("../models/sales");
 
 exports.createSales = (req, res, next) => {
-  console.log(req?.body);
   delete req.body._id;
   const sale = new Sales({
     ...req.body,
@@ -35,7 +34,7 @@ exports.getOneSales = (req, res, next) => {
 };
 
 exports.updateSales = (req, res, next) => {
-  console.log(req.body);
+
   Sales.findOne({
     _id: req.params.id,
   })
