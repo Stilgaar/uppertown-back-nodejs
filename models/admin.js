@@ -11,11 +11,12 @@ const adminSchema = mongoose.Schema({
     bicSwift: { type: String , default :""},
     titulaire: { type: String , default :""},
     domiciliation: { type: String , default :""},
-    mainpage:{type:String, default: "02"},
+    mainpage:{type:String, default: "01"},
     maintitle: {type:String, default:""},
-    maincontent: {type: String, default: ""}
-
+    maincontent: {type: String, default: ""},
+    color: {type: String, default:"#1b3563" }
 
 });
 const AdminModel = mongoose.model('Admin', adminSchema)
+
 module.exports = AdminModel

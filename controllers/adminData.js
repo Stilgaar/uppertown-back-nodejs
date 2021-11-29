@@ -5,35 +5,18 @@ const adminData = {
     addRib(req, res, next) {
         let { titulaire, domiciliation, iban, codeBanque, codeGuichet, numeroCompte, clefRib, bicSwift } = req.body;
         if (!titulaire || !domiciliation || !iban || !codeBanque || !codeGuichet || !numeroCompte || !clefRib || !bicSwift) { return res.send("empty") }
-
-        return AdminModel.findOneAndUpdate({ lerib: "01" },
-            {
-                $set: {
-                    titulaire: titulaire,
-                    domiciliation: domiciliation,
-                    iban: iban,
-                    codeBanque: codeBanque,
-                    codeGuichet: codeGuichet,
-                    numeroCompte: numeroCompte,
-                    clefRib: clefRib,
-                    bicSwift: bicSwift
+        AdminModel.findOneAndUpdate({ lerib: "01" },
+            { $set: {
+                    titulaire: titulaire, domiciliation: domiciliation, iban: iban, codeBanque: codeBanque, codeGuichet: codeGuichet, numeroCompte: numeroCompte, clefRib: clefRib, bicSwift: bicSwift
                 }
-            }
-            , { new: true }
-            , (err, updatedrib) => {
-                if (err) AdminModel.create({
-                    lerib,
-                    titulaire,
-                    domiciliation,
-                    iban,
-                    codeBanque,
-                    codeGuichet,
-                    numeroCompte,
-                    clefRib,
-                    bicSwift
-                }).then((newrib) => res.send(newrib))
-                    .catch((err) => res.send(err))
-                else { res.send(updatedrib); }
+            }, { new: true }, (err, updatedRib) => {
+                if (err) { res.send(err) }
+                if (!updatedRib) {
+                    AdminModel.create({
+                        titulaire, domiciliation, iban, codeBanque, codeGuichet, numeroCompte, clefRib, bicSwift
+                    }).then((newRib) => res.send(newRib))
+                        .catch((err) => res.send(err))
+                } else {res.send(updatedRib)}
             })
     },
 
@@ -44,23 +27,24 @@ const adminData = {
     },
 
 
-    addAdminText(req,res,next) {
-        let {maintitle, maincontent} = req.body; 
+    addAdminText(req, res, next) {
+        let { maintitle, maincontent, color } = req.body;
 
-        return AdminModel.findOneAndUpdate({ lerib:"01" },
-        { $set: {maintitle: maintitle
-            , maincontent: maincontent} }
-            ,{new: true}
-            ,(err, updateMain) => {
+        return AdminModel.findOneAndUpdate({ mainpage: "01" },
+            { $set: {
+                    maintitle: maintitle , maincontent: maincontent, color: color } }
+            , { new: true }
+            , (err, updateMain) => {
                 if (err) AdminModel.create({
-                    mainpage,
                     maintitle,
-                    maincontent
+                    maincontent,
+                    color,
                 }).then((newMain) => res.send(newMain))
-                .catch((err) => res.send(err))
-                else {res.send(updateMain)}
+                    .catch((err) => res.send(err))
+                else { res.send(updateMain) }
             }
-        )}
+        )
+    }
 }
 
 module.exports = adminData;

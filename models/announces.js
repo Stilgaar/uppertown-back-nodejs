@@ -25,3 +25,4 @@ const announceSchema = mongoose.Schema({
 const AnnounceModel = mongoose.model('Announces', announceSchema)
 
 module.exports = AnnounceModel;
+
