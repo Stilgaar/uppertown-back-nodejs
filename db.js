@@ -9,5 +9,5 @@ const DB_URI = process.env.MONGO_URL || "mongodb+srv://jquievreux:Erin25012017@c
 // ${protocolMongo}://${hostMongo}:${portMongo}/${dbname}`;
 
 mongoose.connect(DB_URI).then(()=>{
-console.log("connected to : "+DB_URI);
+console.log("connected to : " + DB_URI);
 })
