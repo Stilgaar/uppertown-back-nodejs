@@ -1,51 +1,5 @@
 const Announces = require("../models/announces");
 
-exports.createAnnounces = (req, res, next) => {
-  //console.log(req?.files[0]?.filename);
-  delete req.body._id;
-  const announce = new Announces({
-    
-    ...req.body,
-
-    /*image:[`${req.protocol}://${req.get('host')}/images/${req?.files[0]?.filename}`,
-     `${req.protocol}://${req.get('host')}/images/${req?.files[1]?.filename}`,
-    `${req.protocol}://${req.get('host')}/images/${req?.files[2]?.filename}`]*/
-    
-    image: {
-      
-      image1: `${req.protocol}://${req.get("host")}/images/${
-        req?.files[0]?.filename
-      }`,
-      image2: `${req.protocol}://${req.get("host")}/images/${
-        req?.files[1]?.filename
-      }`,
-      image3: `${req.protocol}://${req.get("host")}/images/${
-        req?.files[2]?.filename
-      }`,
-      image4: `${req.protocol}://${req.get("host")}/images/${
-        req?.files[3]?.filename
-      }`,
-      image5: `${req.protocol}://${req.get("host")}/images/${
-        req?.files[4]?.filename
-      }`,
-    },
-  });
-  announce
-    .save()
-    .then(() => {
-      res.status(201).json({
-        message: "Post saved successfully!",
-      });
-    }) /*.then(() => {
-        res.sendfile(image1)
-      })*/
-    .catch((error) => {
-      res.status(400).json({
-        error: error,
-      });
-    });
-};
-
 exports.getOneAnnounces = (req, res, next) => {
   Announces.findOne({
     _id: req.params.id,
