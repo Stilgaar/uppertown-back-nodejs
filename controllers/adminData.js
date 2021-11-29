@@ -32,15 +32,18 @@ const adminData = {
 
         return AdminModel.findOneAndUpdate({ mainpage: "01" },
             { $set: {
-                    maintitle: maintitle , maincontent: maincontent, color: color } }
+                    maintitle: maintitle, 
+                    maincontent: maincontent,
+                     color: color } }
             , { new: true }
             , (err, updateMain) => {
-                if (err) AdminModel.create({
+                if (err) { res.send(err)} 
+                if(!updateMain) { AdminModel.create({
                     maintitle,
                     maincontent,
                     color,
                 }).then((newMain) => res.send(newMain))
-                    .catch((err) => res.send(err))
+                    .catch((err) => res.send(err)) }
                 else { res.send(updateMain) }
             }
         )
