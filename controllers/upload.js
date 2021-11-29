@@ -2,7 +2,6 @@
 const multer = require('multer');
 const path = require('path');
 const Users = require('../models/users');
-const Announce = require('../controllers/announces')
 
 const storageid = multer.diskStorage({
     destination: `private/upload/id`,
