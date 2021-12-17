@@ -7,6 +7,7 @@ const saltRounds = 10;
 
 exports.signup = (req, res, next) => {
 
+  console.log("pouet")
 
   let { firstname, lastname, brandname, email, tel, password, verifpassword } = req.body;
 
@@ -39,36 +40,6 @@ exports.signup = (req, res, next) => {
     return res.send("mail");
   });
 
-};
-
-//connexion // Route Login :
-
-exports.login = (req, res, next) => {
-  Users.findOne({ email: req.body.email })
-    .then(user => {
-      if (!user) {
-        return res.status(401).json({ error: 'Utilisateur non trouvé !' });
-      }
-      bcrypt.compare(req.body.password, user.password) // ou hash ??
-        .then(valid => {
-          if (!valid) {
-            return res.status(401).json({ error: 'Mot de passe incorrect !' });
-          }
-          res.status(200).json({
-            userId: user._id,
-            firstname: user.firstname,
-            lastname: user.lastname,
-            token: jwt.sign(
-              { userId: user._id },
-              'RANDOM_TOKEN_SECRET',
-              { expiresIn: '24h' }
-            )
-
-          });
-        })
-        .catch(error => res.status(500).json({ error }));
-    })
-    .catch(error => res.status(500).json({ error }));
 };
 
 // Chopper tous les utilisateurs // route Users
@@ -105,16 +76,47 @@ exports.getToken = (req, res, next) => {
   const token = authorization.split(" ")[1];
   if (!token) { return res.senStatus(400) }
   jwt.verify(token, 'RANDOM_TOKEN_SECRET', function (err, decoded) {
-    if (err) return res.sendStatus(418)
-    let id = decoded.userId
+    if (err) { res.send('token expire') }
 
-    Users.findOne({
-      _id: id
-    }).then((existUser) => {
-      res.send(existUser)
+    else {
+      let id = decoded.userId
+
+      Users.findOne({
+        _id: id
+      }).then((existUser) => {
+        res.send(existUser)
+      }
+      )
     }
-    )
   })
+};
+
+exports.login = (req, res, next) => {
+  Users.findOne({ email: req.body.email })
+    .then(user => {
+      if (!user) {
+        return res.status(401).json({ error: 'Utilisateur non trouvé !' });
+      }
+      bcrypt.compare(req.body.password, user.password) // ou hash ??
+        .then(valid => {
+          if (!valid) {
+            return res.status(401).json({ error: 'Mot de passe incorrect !' });
+          }
+          res.status(200).json({
+            userId: user._id,
+            firstname: user.firstname,
+            lastname: user.lastname,
+            token: jwt.sign(
+              { userId: user._id },
+              'RANDOM_TOKEN_SECRET',
+              { expiresIn: '24h' }
+            )
+
+          });
+        })
+        .catch(error => res.status(500).json({ error }));
+    })
+    .catch(error => res.status(500).json({ error }));
 };
 
 exports.modifySC = (req, res, next) => {
@@ -217,20 +219,20 @@ exports.modifyData = (req, res, next) => {
   },
 
   exports.archiveEuros = (req, res, next) => {
-   let {id, argent} = req.body;
+    let { id, argent } = req.body;
 
-  Users.findOneAndUpdate({ _id: id }
-    , {
-      $pull: { montantEuro: argent },
-      $push: { ancientMontantsEuro: `${argent} TRANSFERT FAIT LE ${new Date}` }
-    }
-    ,
-    { new: true },
-    (err, archiveEuro) => {
-      if (err) { res.send(err) }
-      else { res.send(archiveEuro) }
-    }
-  )
+    Users.findOneAndUpdate({ _id: id }
+      , {
+        $pull: { montantEuro: argent },
+        $push: { ancientMontantsEuro: `${argent} TRANSFERT FAIT LE ${new Date}` }
+      }
+      ,
+      { new: true },
+      (err, archiveEuro) => {
+        if (err) { res.send(err) }
+        else { res.send(archiveEuro) }
+      }
+    )
   },
 
   exports.transactionDone = (req, res, next) => {
@@ -244,7 +246,7 @@ exports.modifyData = (req, res, next) => {
       })
   },
 
-  exports.transtactionEuroDone = (req,res,next) => {
+  exports.transtactionEuroDone = (req, res, next) => {
     let id = req.body
     Users.findOneAndUpdate({ _id: id.data },
       { $set: { awaitingEuro: false } },
@@ -257,19 +259,20 @@ exports.modifyData = (req, res, next) => {
 
   exports.askMoney = (req, res, next) => {
     let { change, theRib, id, currentStable } = req.body;
-   
-    if (change >= currentStable) {res.send('error')} 
+
+    if (change >= currentStable) { res.send('error') }
     else {
       let newChange = parseInt(change)
-    Users.findOneAndUpdate({ _id: id },
-      {
-        $set: { awaitingEuro: true, stableCoins: currentStable - newChange },
-        $push: { montantEuro: `Virement de ${change}€ sur le RIB suivant : ${theRib} le ${new Date}` }
-      },
-      { new: true },
-      (err, updateTransfert) => {
-        if (err) { res.send(err) }
-        else { res.send(updateTransfert) }
-      }) }
+      Users.findOneAndUpdate({ _id: id },
+        {
+          $set: { awaitingEuro: true, stableCoins: currentStable - newChange },
+          $push: { montantEuro: `Virement de ${change}€ sur le RIB suivant : ${theRib} le ${new Date}` }
+        },
+        { new: true },
+        (err, updateTransfert) => {
+          if (err) { res.send(err) }
+          else { res.send(updateTransfert) }
+        })
+    }
 
   }

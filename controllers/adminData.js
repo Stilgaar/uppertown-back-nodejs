@@ -6,7 +6,8 @@ const adminData = {
         let { titulaire, domiciliation, iban, codeBanque, codeGuichet, numeroCompte, clefRib, bicSwift } = req.body;
         if (!titulaire || !domiciliation || !iban || !codeBanque || !codeGuichet || !numeroCompte || !clefRib || !bicSwift) { return res.send("empty") }
         AdminModel.findOneAndUpdate({ lerib: "01" },
-            { $set: {
+            {
+                $set: {
                     titulaire: titulaire, domiciliation: domiciliation, iban: iban, codeBanque: codeBanque, codeGuichet: codeGuichet, numeroCompte: numeroCompte, clefRib: clefRib, bicSwift: bicSwift
                 }
             }, { new: true }, (err, updatedRib) => {
@@ -16,7 +17,7 @@ const adminData = {
                         titulaire, domiciliation, iban, codeBanque, codeGuichet, numeroCompte, clefRib, bicSwift
                     }).then((newRib) => res.send(newRib))
                         .catch((err) => res.send(err))
-                } else {res.send(updatedRib)}
+                } else { res.send(updatedRib) }
             })
     },
 
@@ -31,19 +32,24 @@ const adminData = {
         let { maintitle, maincontent, color } = req.body;
 
         return AdminModel.findOneAndUpdate({ mainpage: "01" },
-            { $set: {
-                    maintitle: maintitle, 
-                    maincontent: maincontent,
-                     color: color } }
+            {
+                $set: {
+                    maintitle: maintitle,
+                    maincontent: `${maincontent}`,
+                    color: color
+                }
+            }
             , { new: true }
             , (err, updateMain) => {
-                if (err) { res.send(err)} 
-                if(!updateMain) { AdminModel.create({
-                    maintitle,
-                    maincontent,
-                    color,
-                }).then((newMain) => res.send(newMain))
-                    .catch((err) => res.send(err)) }
+                if (err) { res.send(err) }
+                if (!updateMain) {
+                    AdminModel.create({
+                        maintitle,
+                        maincontent,
+                        color,
+                    }).then((newMain) => res.send(newMain))
+                    .catch((err) => res.send(err))
+                }
                 else { res.send(updateMain) }
             }
         )
