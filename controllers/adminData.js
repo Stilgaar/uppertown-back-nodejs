@@ -30,9 +30,9 @@ const adminData = {
     },
 
     getHost(req, res, next){
-     if(hostname) {
-        res.send(hostname)
-     }
+     if(hostname === "uppertown-back-web-1") {
+        res.send("https://uppertown-back.osc-fr1.scalingo.io")
+     }else {res.send("http://localhost:1337")}
     },
 
 
