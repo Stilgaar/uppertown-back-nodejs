@@ -1,4 +1,6 @@
 const AdminModel = require('../models/admin');
+var os = require("os");
+var hostname = os.hostname();
 
 const adminData = {
 
@@ -25,6 +27,12 @@ const adminData = {
         AdminModel.find()
             .then((rib) => res.status(200).json(rib))
             .catch((err) => res.send)
+    },
+
+    getHost(req, res, next){
+     if(hostname) {
+        res.send(hostname)
+     }
     },
 
 
