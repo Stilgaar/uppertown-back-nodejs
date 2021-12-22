@@ -8,5 +8,5 @@ const dbname = "updownstreet";
 const DB_URI = process.env.MONGO_URL || `${protocolMongo}://${hostMongo}:${portMongo}/${dbname}`;
 
 mongoose.connect(DB_URI).then(() => {
-    console.log("connected to : " + DB_URI);
+    console.log(`**** Connected to : " + ${DB_URI} **** `);
 })

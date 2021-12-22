@@ -1,7 +1,6 @@
 const AdminModel = require('../models/admin');
 var os = require("os");
-var hostname = os.hostname();
-
+var hostname = os.hostname()
 const adminData = {
 
     addRib(req, res, next) {
@@ -31,8 +30,10 @@ const adminData = {
 
     getHost(req, res, next){
      if(hostname === "uppertown-back-web-1") {
-        res.send("https://uppertown-back.osc-fr1.scalingo.io")
-     }else {res.send("http://localhost:1337")}
+        res.send("url")
+     } else {
+         res.send("localurl")
+        }
     },
 
 
