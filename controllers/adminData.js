@@ -28,12 +28,12 @@ const adminData = {
             .catch((err) => res.send)
     },
 
-    getHost(req, res, next){
-     if(hostname === "uppertown-back-web-1") {
+    getHostURL(req, res, next){ 
         res.send("url")
-     } else {
-         res.send("localurl")
-        }
+    },
+
+    getHostURLLOCAL(req, res, next){ 
+        res.send("local")
     },
 
 

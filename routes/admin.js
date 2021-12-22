@@ -11,7 +11,8 @@ router.post('/noAdmin', admin.noAdmin)
 
 router.post('/newRib', adminData.addRib)
 router.get('/getRib', adminData.getRib)
-router.get('/hostname', adminData.getHost)
+router.get('/hostnameurl', adminData.getHostURL)
+router.get('/hostnamelocal', adminData.getHostURLLOCAL)
 router.post('/maintext', adminData.addAdminText)
 
 
