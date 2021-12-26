@@ -7,16 +7,15 @@ const saltRounds = 10;
 
 exports.signup = (req, res, next) => {
 
-  console.log("pouet")
-
   let { firstname, lastname, brandname, email, tel, password, verifpassword } = req.body;
-
+  console.log(req.body)
+  
   if (!firstname || !lastname || !email || !tel || !password || !verifpassword) {
-    return res.send("empty")
+    return res.send("Tous les champs ne sont pas remplis")
   }
 
   if (password !== verifpassword) {
-    return res.send("password")
+    return res.send("Les mots de passe de correspondent pas")
   }
 
   return Users.findOne({ email: email }).then((emailAlreadyHere) => {
@@ -32,12 +31,11 @@ exports.signup = (req, res, next) => {
         email,
         tel,
         password: hashed
-      }).then((newUser) => {
-        console.log(newUser)
-        return res.send("ok")
+      }).then(() => {
+        return res.send("Compte crée avec Succéss !")
       }).catch((err) => console.log(err))
     };
-    return res.send("mail");
+    return res.send("Votre mail est deja utilisé");
   });
 
 };
@@ -70,7 +68,6 @@ exports.getOneUser = (req, res, next) => {
 };
 
 exports.getToken = (req, res, next) => {
-
   const authorization = req.headers.authorization;
   if (!authorization) { return res.sendStatus(403) };
   const token = authorization.split(" ")[1];
@@ -95,12 +92,12 @@ exports.login = (req, res, next) => {
   Users.findOne({ email: req.body.email })
     .then(user => {
       if (!user) {
-        return res.status(401).json({ error: 'Utilisateur non trouvé !' });
+        return res.send("Utilisateur non trouvé");
       }
-      bcrypt.compare(req.body.password, user.password) // ou hash ??
+      bcrypt.compare(req.body.password, user.password)
         .then(valid => {
           if (!valid) {
-            return res.status(401).json({ error: 'Mot de passe incorrect !' });
+            return res.send("Mot de passe Incorrect");
           }
           res.status(200).json({
             userId: user._id,
