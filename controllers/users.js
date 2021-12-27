@@ -8,8 +8,9 @@ const saltRounds = 10;
 exports.signup = (req, res, next) => {
 
   let { firstname, lastname, brandname, email, tel, password, verifpassword } = req.body;
-  console.log(req.body)
-  
+
+  console.log("REQBODY", req.body)
+
   if (!firstname || !lastname || !email || !tel || !password || !verifpassword) {
     return res.send("Tous les champs ne sont pas remplis")
   }
