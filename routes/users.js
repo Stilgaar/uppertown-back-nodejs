@@ -6,10 +6,10 @@ router.post('/signup', userCtrl.signup);
 router.post('/login', userCtrl.login);
 router.get('/users', userCtrl.getAllUsers);
 router.get('/token', userCtrl.getToken);
-router.patch('/modifyUser', userCtrl.modifyData);
+router.post('/modifyUser', userCtrl.modifyData);
 router.post('/addCoins', userCtrl.getCoins);
 router.put('/:id', userCtrl.modifySC);//modifie la valeur du portefeuille
-router.get('/:id', userCtrl.getOneUser); 
+router.get('/:id', userCtrl.getOneUser);
 router.post('/addMoney', userCtrl.addMoney)
 router.post('/askMoney', userCtrl.askMoney)
 router.post('/archiveMoney', userCtrl.archiveMoney)

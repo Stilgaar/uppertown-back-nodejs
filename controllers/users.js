@@ -149,6 +149,8 @@ exports.modifyData = (req, res, next) => {
     newRib
   } = req.body;
 
+  console.log(req.body)
+
   Users.findOneAndUpdate({ email: email }
     , {
       $set: {
