@@ -3,8 +3,9 @@ const Users = require('../models/users');
 const admin = {
 
     verifPi(req, res, next) {
-        let email = req.body;
-        Users.findOneAndUpdate({ email: email.data}
+        let email = req.body
+        console.log(email)
+        Users.findOneAndUpdate({ email: email.email }
             , { $set: { userType: "userType2" } }
             , { new: true }, (err, newType) => {
                 if (err) { res.send(err) }
@@ -15,7 +16,7 @@ const admin = {
 
     verifJDD(req, res, next) {
         let email = req.body;
-            Users.findOneAndUpdate({ email: email.data}
+        Users.findOneAndUpdate({ email: email.data }
             , { $set: { userType: "userType3" } }
             , { new: true }, (err, newType) => {
                 if (err) { res.send(err) }
@@ -26,7 +27,8 @@ const admin = {
 
     verifAVIS(req, res, next) {
         let email = req.body;
-        Users.findOneAndUpdate({ email: email.data}
+        console.log(email)
+        Users.findOneAndUpdate({ email: email.data }
             , { $set: { userType: "userType4" } }
             , { new: true }, (err, newType) => {
                 if (err) { res.send(err) }
@@ -37,7 +39,7 @@ const admin = {
 
     goAdmin(req, res, next) {
         let email = req.body;
-        Users.findOneAndUpdate({ email: email.data}
+        Users.findOneAndUpdate({ email: email.data }
             , { $set: { isAdmin: true } }
             , { new: true }, (err, newType) => {
                 if (err) { res.send(err) }
@@ -48,7 +50,7 @@ const admin = {
 
     noAdmin(req, res, next) {
         let email = req.body;
-        Users.findOneAndUpdate({ email: email.data}
+        Users.findOneAndUpdate({ email: email.data }
             , { $set: { isAdmin: false } }
             , { new: true }, (err, newType) => {
                 if (err) { res.send(err) }

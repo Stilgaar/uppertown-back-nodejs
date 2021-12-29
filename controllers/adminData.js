@@ -4,21 +4,45 @@ var hostname = os.hostname()
 const adminData = {
 
     addRib(req, res, next) {
+        console.log(req.body)
+
         let { titulaire, domiciliation, iban, codeBanque, codeGuichet, numeroCompte, clefRib, bicSwift } = req.body;
-        if (!titulaire || !domiciliation || !iban || !codeBanque || !codeGuichet || !numeroCompte || !clefRib || !bicSwift) { return res.send("empty") }
+
+        if (!titulaire || !domiciliation || !iban || !codeBanque || !codeGuichet || !numeroCompte || !clefRib || !bicSwift) {
+            return res.send("empty");
+        }
+
         AdminModel.findOneAndUpdate({ lerib: "01" },
             {
                 $set: {
-                    titulaire: titulaire, domiciliation: domiciliation, iban: iban, codeBanque: codeBanque, codeGuichet: codeGuichet, numeroCompte: numeroCompte, clefRib: clefRib, bicSwift: bicSwift
+                    titulaire: titulaire,
+                    domiciliation: domiciliation,
+                    iban: iban,
+                    codeBanque: codeBanque,
+                    codeGuichet: codeGuichet,
+                    numeroCompte: numeroCompte,
+                    clefRib: clefRib,
+                    bicSwift: bicSwift
                 }
-            }, { new: true }, (err, updatedRib) => {
-                if (err) { res.send(err) }
+            }
+            , { new: true }
+            , (err, updatedRib) => {
+                if (err) {
+                    res.send(err);
+                }
                 if (!updatedRib) {
                     AdminModel.create({
-                        titulaire, domiciliation, iban, codeBanque, codeGuichet, numeroCompte, clefRib, bicSwift
-                    }).then((newRib) => res.send(newRib))
+                        titulaire,
+                        domiciliation,
+                        iban,
+                        codeBanque,
+                        codeGuichet,
+                        numeroCompte,
+                        clefRib,
+                        bicSwift
+                    }).then(() => res.send("NEWRIB"))
                         .catch((err) => res.send(err))
-                } else { res.send(updatedRib) }
+                } else { res.send("UPDATE RIB") }
             })
     },
 
@@ -28,11 +52,11 @@ const adminData = {
             .catch((err) => res.send)
     },
 
-    getHostURL(req, res, next){ 
+    getHostURL(req, res, next) {
         res.send("url")
     },
 
-    getHostURLLOCAL(req, res, next){ 
+    getHostURLLOCAL(req, res, next) {
         res.send("local")
     },
 
@@ -44,7 +68,7 @@ const adminData = {
             {
                 $set: {
                     maintitle: maintitle,
-                    maincontent: `${maincontent}`,
+                    maincontent: maincontent,
                     color: color
                 }
             }
@@ -57,7 +81,7 @@ const adminData = {
                         maincontent,
                         color,
                     }).then((newMain) => res.send(newMain))
-                    .catch((err) => res.send(err))
+                        .catch((err) => res.send(err))
                 }
                 else { res.send(updateMain) }
             }
