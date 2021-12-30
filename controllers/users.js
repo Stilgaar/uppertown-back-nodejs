@@ -237,7 +237,7 @@ exports.modifyData = (req, res, next) => {
 
   exports.transactionDone = (req, res, next) => {
     let email = req.body;
-    Users.findOneAndUpdate({ email: email.data },
+    Users.findOneAndUpdate({ email: email.email },
       { $set: { awaiting: false } },
       { new: true },
       (err, udpateAwaiting) => {
@@ -247,8 +247,8 @@ exports.modifyData = (req, res, next) => {
   },
 
   exports.transtactionEuroDone = (req, res, next) => {
-    let id = req.body
-    Users.findOneAndUpdate({ _id: id.data },
+    let email = req.body
+    Users.findOneAndUpdate({ email: email.email },
       { $set: { awaitingEuro: false } },
       { new: true },
       (err, udpateAwaitingEuro) => {
