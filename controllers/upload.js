@@ -117,7 +117,7 @@ const upload = {
             let { email } = req.body;
             if (err) { res.send(err) }
             else (Users.findOneAndUpdate({ email: email }
-                , { $push: { JDD: `${req.protocol}://${req.get("host")}/private/upload/jdd/${images.filename}` } }
+                , { $push: { JDD: `${req.protocol}://${req.get("host")}/private/upload/jdd/${req.file.filename}` } }
                 , { new: true }
                 , (err, change) => {
                     if (err) { res.send(err) }
@@ -135,7 +135,7 @@ const upload = {
             else {
                 if (req.file == undefined) { res.send(err) }
                 else (Users.findOneAndUpdate({ email: email }
-                    , { $push: { avisFiscal: `${req.protocol}://${req.get("host")}/private/upload/avisfiscal/${images.filename}` } }
+                    , { $push: { avisFiscal: `${req.protocol}://${req.get("host")}/private/upload/avisfiscal/${req.file.filename}` } }
                     , { new: true }
                     , (err, change) => {
                         if (err) { res.send(err) }
@@ -154,7 +154,7 @@ const upload = {
             else {
                 if (req.file == undefined) { res.send(err) }
                 else (Users.findOneAndUpdate({ email: email }
-                    , { $push: { picrib: `${req.protocol}://${req.get("host")}/private/upload/RiB/${images.filename}` } }
+                    , { $push: { picrib: `${req.protocol}://${req.get("host")}/private/upload/RiB/${req.file.filename}` } }
                     , { new: true }
                     , (err, change) => {
                         if (err) { res.send(err) }
