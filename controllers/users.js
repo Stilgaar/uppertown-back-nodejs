@@ -137,9 +137,9 @@ exports.modifySC = (req, res, next) => {
     });
 };
 
-exports.modifyData = (req, res, next) => {
+exports.modifyUser = (req, res, next) => {
 
-  let { email,
+  let {
     newfirstname,
     newlastname,
     newemail,
@@ -148,8 +148,7 @@ exports.modifyData = (req, res, next) => {
     newadress,
     newRib
   } = req.body;
-
-  console.log(req.body)
+  let { email } = req.body.email
 
   Users.findOneAndUpdate({ email: email }
     , {
@@ -171,9 +170,10 @@ exports.modifyData = (req, res, next) => {
     })
 },
 
-  exports.getCoins = (req, res, next) => {
+  exports.addCoins = (req, res, next) => {
+
     Users.findOne({
-      _id: req.body.id
+      _id: req.body._id._id
     })
       .then((user) => {
 

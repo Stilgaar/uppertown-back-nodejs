@@ -6,8 +6,8 @@ router.post('/signup', userCtrl.signup);
 router.post('/login', userCtrl.login);
 router.get('/users', userCtrl.getAllUsers);
 router.get('/token', userCtrl.getToken);
-router.post('/modifyUser', userCtrl.modifyData);
-router.post('/addCoins', userCtrl.getCoins);
+router.post('/modifyUser', userCtrl.modifyUser);
+router.post('/addCoins', userCtrl.addCoins);
 router.put('/:id', userCtrl.modifySC);//modifie la valeur du portefeuille
 router.get('/:id', userCtrl.getOneUser);
 router.post('/addMoney', userCtrl.addMoney)

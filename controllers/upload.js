@@ -10,7 +10,9 @@ const storageid = multer.diskStorage({
             file.fieldname
             + `-`
             + Date.now()
-            + path.extname(file.originalname))}})
+            + path.extname(file.originalname))
+    }
+})
 
 const storageJdd = multer.diskStorage({
     destination: `private/upload/Jdd`,
@@ -19,7 +21,9 @@ const storageJdd = multer.diskStorage({
             file.fieldname
             + `-`
             + Date.now()
-            + path.extname(file.originalname))}})
+            + path.extname(file.originalname))
+    }
+})
 
 const storageAvis = multer.diskStorage({
     destination: `private/upload/avisfiscal`,
@@ -28,7 +32,9 @@ const storageAvis = multer.diskStorage({
             file.fieldname
             + `-`
             + Date.now()
-            + path.extname(file.originalname))}})
+            + path.extname(file.originalname))
+    }
+})
 
 const storageRib = multer.diskStorage({
     destination: `private/upload/rib`,
@@ -37,7 +43,9 @@ const storageRib = multer.diskStorage({
             file.fieldname
             + `-`
             + Date.now()
-            + path.extname(file.originalname))}})
+            + path.extname(file.originalname))
+    }
+})
 
 function checkFileType(file, cb) {
     const filetypes = /jpg|jpeg|png|pdf/;
@@ -47,28 +55,33 @@ function checkFileType(file, cb) {
     if (mimetype && extname) {
         return cb(null, true)
     } else {
-        cb(null, false)}}
+        cb(null, false)
+    }
+}
 
 const uppingId = multer({
     storage: storageid,
     limit: { fileSize: 1000000000 },
     fileFilter: function (req, file, cb) {
         checkFileType(file, cb);
-    }}).single('pieceidentite')
+    }
+}).single('pieceidentite')
 
 const uppingJdd = multer({
     storage: storageJdd,
     limit: { fileSize: 1000000000 },
     fileFilter: function (req, file, cb) {
         checkFileType(file, cb);
-    }}).single('justificatifdomicile')
+    }
+}).single('justificatifdomicile')
 
 const uppingAvis = multer({
     storage: storageAvis,
     limit: { fileSize: 1000000000 },
     fileFilter: function (req, file, cb) {
         checkFileType(file, cb);
-    }}).single('avisfiscal')
+    }
+}).single('avisfiscal')
 
 
 const uppingRib = multer({
@@ -76,18 +89,20 @@ const uppingRib = multer({
     limit: { fileSize: 1000000000 },
     fileFilter: function (req, file, cb) {
         checkFileType(file, cb);
-    }}).single('rib')
+    }
+}).single('rib')
 
 const upload = {
 
     newUpId(req, res) {
         uppingId(req, res, (err) => {
             let { email } = req.body;
+            console.log(req.file)
             if (err) { res.send(err) }
             else {
                 if (req.file == undefined) { res.send(err) }
                 else (Users.findOneAndUpdate({ email: email }
-                    , { $push: { pi: `${req.protocol}://${req.get("host")}/private/upload/id/${images.filename}` } }
+                    , { $push: { pi: `${req.protocol}://${req.get("host")}/private/upload/id/${req.file.filename}` } }
                     , { new: true }
                     , (err, change) => {
                         if (err) { res.send(err) }
@@ -152,7 +167,7 @@ const upload = {
     supprimerDoc(req, res, next) {
         let { email, data } = req.body;
         Users.findOneAndUpdate({ email: email },
-            { $pull: { pi: data, JDD: data, avisFiscal: data, picrib: data, rib:data} }).then((data) => res.send(data))
+            { $pull: { pi: data, JDD: data, avisFiscal: data, picrib: data, rib: data } }).then((data) => res.send(data))
     }
 }
 
