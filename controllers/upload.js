@@ -81,7 +81,7 @@ const uppingAvis = multer({
     fileFilter: function (req, file, cb) {
         checkFileType(file, cb);
     }
-}).single('avisfiscal')
+}).single('avisFiscal')
 
 
 const uppingRib = multer({
@@ -90,14 +90,13 @@ const uppingRib = multer({
     fileFilter: function (req, file, cb) {
         checkFileType(file, cb);
     }
-}).single('rib')
+}).single('picrib')
 
 const upload = {
 
     newUpId(req, res) {
         uppingId(req, res, (err) => {
             let { email } = req.body;
-            console.log(req.file)
             if (err) { res.send(err) }
             else {
                 if (req.file == undefined) { res.send(err) }
@@ -128,28 +127,26 @@ const upload = {
 
     newUpAvis(req, res) {
         uppingAvis(req, res, (err) => {
-
             let { email } = req.body;
-
             if (err) { res.send(err) }
             else {
                 if (req.file == undefined) { res.send(err) }
-                else (Users.findOneAndUpdate({ email: email }
-                    , { $push: { avisFiscal: `${req.protocol}://${req.get("host")}/private/upload/avisfiscal/${req.file.filename}` } }
-                    , { new: true }
-                    , (err, change) => {
-                        if (err) { res.send(err) }
-                        else { res.send(change) }
-                    }))
+                else {
+                    (Users.findOneAndUpdate({ email: email }
+                        , { $push: { avisFiscal: `${req.protocol}://${req.get("host")}/private/upload/avisfiscal/${req.file.filename}` } }
+                        , { new: true }
+                        , (err, change) => {
+                            if (err) { res.send(err) }
+                            else { res.send(change) }
+                        }))
+                }
             }
         })
     },
 
     newUpRiB(req, res) {
         uppingRib(req, res, (err) => {
-
             let { email } = req.body;
-
             if (err) { res.send(err) }
             else {
                 if (req.file == undefined) { res.send(err) }
@@ -165,9 +162,10 @@ const upload = {
     },
 
     supprimerDoc(req, res, next) {
-        let { email, data } = req.body;
+        let { email, pic } = req.body.x;
         Users.findOneAndUpdate({ email: email },
-            { $pull: { pi: data, JDD: data, avisFiscal: data, picrib: data, rib: data } }).then((data) => res.send(data))
+            { $pull: { pi: pic, JDD: pic, avisFiscal: pic, picrib: pic, rib: pic } })
+            .then((data) => res.send(data))
     }
 }
 
