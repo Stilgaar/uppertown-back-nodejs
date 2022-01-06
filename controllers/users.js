@@ -148,7 +148,7 @@ exports.modifyUser = (req, res, next) => {
     newadress,
     newRib
   } = req.body;
-  let { email } = req.body.email
+  let { email } = req.body
 
   Users.findOneAndUpdate({ email: email }
     , {
@@ -159,7 +159,6 @@ exports.modifyUser = (req, res, next) => {
         tel: newtel,
         brandname: newbrandname,
         adress: newadress,
-
       },
       $push: { rib: newRib }
     }

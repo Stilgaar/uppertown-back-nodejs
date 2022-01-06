@@ -94,7 +94,8 @@ const uppingRib = multer({
 const upload = {
     newUpId(req, res) {
         uppingId(req, res, (err) => {
-            let email = (req.body)
+            let email = req.body.email
+            console.log(req.body)
             if (err) { res.send(err) }
             else {
                 if (req.file == undefined) { res.send(err) }
@@ -111,9 +112,9 @@ const upload = {
 
     newUpJdd(req, res) {
         uppingJdd(req, res, (err) => {
-            let email = req.body;
+            let email = req.body.email
             if (err) { res.send(err) }
-            else (Users.findOneAndUpdate({ email: email.email }
+            else (Users.findOneAndUpdate({ email: email }
                 , { $push: { JDD: `${req.protocol}://${req.get("host")}/private/upload/jdd/${req.file.filename}` } }
                 , { new: true }
                 , (err, change) => {
@@ -125,12 +126,12 @@ const upload = {
 
     newUpAvis(req, res) {
         uppingAvis(req, res, (err) => {
-            let email = req.body;
+            let email = req.body.email
             if (err) { res.send(err) }
             else {
                 if (req.file == undefined) { res.send(err) }
                 else {
-                    (Users.findOneAndUpdate({ email: email.email }
+                    (Users.findOneAndUpdate({ email: email }
                         , { $push: { avisFiscal: `${req.protocol}://${req.get("host")}/private/upload/avisfiscal/${req.file.filename}` } }
                         , { new: true }
                         , (err, change) => {
@@ -144,11 +145,11 @@ const upload = {
 
     newUpRiB(req, res) {
         uppingRib(req, res, (err) => {
-            let email = req.body;
+            let email = req.body.email
             if (err) { res.send(err) }
             else {
                 if (req.file == undefined) { res.send(err) }
-                else (Users.findOneAndUpdate({ email: email.email }
+                else (Users.findOneAndUpdate({ email: email }
                     , { $push: { picrib: `${req.protocol}://${req.get("host")}/private/upload/RiB/${req.file.filename}` } }
                     , { new: true }
                     , (err, change) => {
