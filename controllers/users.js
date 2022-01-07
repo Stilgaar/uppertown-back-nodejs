@@ -1,4 +1,4 @@
-const Users = require('../models/users'); // import du model user
+const { Users } = require('../models/users'); // import du model user
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const saltRounds = 10;
@@ -43,15 +43,16 @@ exports.signup = (req, res, next) => {
 
 // Chopper tous les utilisateurs // route Users
 exports.getAllUsers = (req, res, next) => {
-  Users.find().then((user) => {
-    res.status(200).json(user);
-  }).catch(
-    (error) => {
-      res.status(400).json({
-        error: error
-      });
-    }
-  );
+  Users.find()
+    .then((user) => {
+      res.status(200).json(user);
+    }).catch(
+      (error) => {
+        res.status(400).json({
+          error: error
+        });
+      }
+    );
 };
 
 exports.getOneUser = (req, res, next) => {
@@ -75,10 +76,8 @@ exports.getToken = (req, res, next) => {
   if (!token) { return res.senStatus(400) }
   jwt.verify(token, 'RANDOM_TOKEN_SECRET', function (err, decoded) {
     if (err) { res.send('token expire') }
-
     else {
       let id = decoded.userId
-
       Users.findOne({
         _id: id
       }).then((existUser) => {
@@ -138,7 +137,6 @@ exports.modifySC = (req, res, next) => {
 };
 
 exports.modifyUser = (req, res, next) => {
-
   let {
     newfirstname,
     newlastname,
@@ -171,6 +169,7 @@ exports.modifyUser = (req, res, next) => {
 
   exports.addCoins = (req, res, next) => {
 
+    console.log(req.body)
     Users.findOne({
       _id: req.body._id._id
     })
@@ -189,7 +188,6 @@ exports.modifyUser = (req, res, next) => {
   },
 
   exports.addMoney = (req, res, next) => {
-
     let { email, montant } = req.body;
     if (!montant) { res.send(err) }
     Users.findOneAndUpdate({ email: email }
@@ -204,7 +202,8 @@ exports.modifyUser = (req, res, next) => {
   },
 
   exports.archiveMoney = (req, res, next) => {
-    let { email, argent } = req.body;
+    let { email } = req.body.x;
+    let { argent } = req.body.y
     Users.findOneAndUpdate({ email: email }
       , {
         $pull: { montant: argent },
@@ -218,9 +217,9 @@ exports.modifyUser = (req, res, next) => {
   },
 
   exports.archiveEuros = (req, res, next) => {
-    let { id, argent } = req.body;
-
-    Users.findOneAndUpdate({ _id: id }
+    let { email } = req.body.x;
+    let { argent } = req.body.y
+    Users.findOneAndUpdate({ email: email }
       , {
         $pull: { montantEuro: argent },
         $push: { ancientMontantsEuro: `${argent} TRANSFERT FAIT LE ${new Date}` }
@@ -235,7 +234,7 @@ exports.modifyUser = (req, res, next) => {
   },
 
   exports.transactionDone = (req, res, next) => {
-    let email = req.body;
+    let email = req.body.x;
     Users.findOneAndUpdate({ email: email.email },
       { $set: { awaiting: false } },
       { new: true },
@@ -246,7 +245,7 @@ exports.modifyUser = (req, res, next) => {
   },
 
   exports.transtactionEuroDone = (req, res, next) => {
-    let email = req.body
+    let email = req.body.x
     Users.findOneAndUpdate({ email: email.email },
       { $set: { awaitingEuro: false } },
       { new: true },
@@ -258,7 +257,7 @@ exports.modifyUser = (req, res, next) => {
 
   exports.askMoney = (req, res, next) => {
     let { change, theRib, id, currentStable } = req.body;
-
+    console.log(req.body)
     if (change >= currentStable) { res.send('error') }
     else {
       let newChange = parseInt(change)
