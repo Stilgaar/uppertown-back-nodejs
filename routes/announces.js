@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const announces = require('../controllers/announces');
-const multer = require('../middleware/multer-config');
 const annoncejeff = require('../controllers/announcejeff')
 
 router.get('/allAnnounces', announces.getAnnounces)

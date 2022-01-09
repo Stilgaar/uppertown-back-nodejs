@@ -4,14 +4,14 @@ exports.createTransactions = (req, res, next) => {
   delete req.body._id;
   const transaction = new Transactions({
     ...req.body,
-});
+  });
   transaction
     .save()
     .then(() => {
       res.status(201).json({
         message: "Post saved successfully!",
       });
-    }) 
+    })
     .catch((error) => {
       res.status(400).json({
         error: error,
@@ -34,30 +34,29 @@ exports.getOneTransactions = (req, res, next) => {
 };
 
 exports.updateTransactions = (req, res, next) => {
-  console.log(req.body);
   //PETITE ERREUR SANS IMPORTANCE QUE J'AI QD MEME CORRIGE. A ACCEPTER :
   Transactions.findOne({
     _id: req.params.id,
   })
-  .then((transaction) => {
-    transaction.announceId = req.body.announceId
-    transaction.userId = req.body.userId
-    transaction.token = req.body.token
-    transaction.sc = req.body.sc
-    transaction.date = Date
+    .then((transaction) => {
+      transaction.announceId = req.body.announceId
+      transaction.userId = req.body.userId
+      transaction.token = req.body.token
+      transaction.sc = req.body.sc
+      transaction.date = Date
 
-    transaction.updateOne({
-      ...req.body
-    }, function (err, result) {
-      if (err) {
-        // console.log(err)
-        res.status(500).json({ message: "une erreur s'est produite" });
-      } else {
-        //console.log("Result :", result) 
-        res.json({ message: "données mises à jour" });
-      }
+      transaction.updateOne({
+        ...req.body
+      }, function (err, result) {
+        if (err) {
+          // console.log(err)
+          res.status(500).json({ message: "une erreur s'est produite" });
+        } else {
+          //console.log("Result :", result) 
+          res.json({ message: "données mises à jour" });
+        }
+      });
     });
-  });
 };
 
 exports.deleteTransactions = (req, res, next) => {
