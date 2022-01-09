@@ -1,7 +1,7 @@
 
 const multer = require('multer');
 const path = require('path');
-const Users = require('../models/users');
+const { Users } = require('../models/users');
 
 const storageid = multer.diskStorage({
     destination: `private/upload/id`,
@@ -95,7 +95,6 @@ const upload = {
     newUpId(req, res) {
         uppingId(req, res, (err) => {
             let email = req.body.email
-            console.log(req.body)
             if (err) { res.send(err) }
             else {
                 if (req.file == undefined) { res.send(err) }
@@ -161,7 +160,7 @@ const upload = {
     },
 
     supprimerDoc(req, res, next) {
-        let { email, pic } = req.body.x;
+        let { email, pic } = req.body
         Users.findOneAndUpdate({ email: email },
             { $pull: { pi: pic, JDD: pic, avisFiscal: pic, picrib: pic, rib: pic } })
             .then((data) => res.send(data))

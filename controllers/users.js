@@ -80,10 +80,11 @@ exports.getToken = (req, res, next) => {
       let id = decoded.userId
       Users.findOne({
         _id: id
-      }).then((existUser) => {
-        res.send(existUser)
-      }
-      )
+      })
+        .then((existUser) => {
+          res.send(existUser)
+        }
+        )
     }
   })
 };
@@ -169,9 +170,9 @@ exports.modifyUser = (req, res, next) => {
 
   exports.addCoins = (req, res, next) => {
 
-    console.log(req.body)
+    console.log("REQ.BODY", req.body)
     Users.findOne({
-      _id: req.body._id._id
+      _id: req.body._id
     })
       .then((user) => {
 
@@ -189,6 +190,7 @@ exports.modifyUser = (req, res, next) => {
 
   exports.addMoney = (req, res, next) => {
     let { email, montant } = req.body;
+    console.log(req.body)
     if (!montant) { res.send(err) }
     Users.findOneAndUpdate({ email: email }
       , {

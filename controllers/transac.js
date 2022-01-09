@@ -1,4 +1,4 @@
-const { Users } = require('../models/users');
+const { Users, Alltrans } = require('../models/users');
 const allTransacsModel = require('../models/allUserTransac')
 
 
@@ -6,18 +6,13 @@ const transac = {
 
     oneTransac(req, res, next) {
 
-        let { lastname, _id, annonceId, amountStableCoins } = req.body
+        let { lastname, id, annonceId, amountStableCoins } = req.body
+        console.log(req.body)
 
-        Users.findOne({ _id: _id })
-            .then(reccord => {
-                reccord.allTrans.push({ annonceId, amountStableCoins })
-                reccord.save()
-            })
-
-        allTransacsModel.create({
-            user: lastname,
-            userId: _id,
-            annId: annonceId,
+        Alltrans.create({
+            lastname: lastname,
+            users: id,
+            annonceId: annonceId,
             amountStableCoins: amountStableCoins
         })
             .then(() => res.send('Engeristré dans la BD'))
