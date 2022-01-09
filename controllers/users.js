@@ -57,9 +57,7 @@ exports.getAllUsers = (req, res, next) => {
 
 exports.getALlTransacs = (req,res,next) => {
   console.log(req.params)
-Users.findOne({_id: req.params.id})
-.populate('Alltrans')
-.then((rep) => res.send(rep))
+Users.findOne({_id : req.params.id}).then(rep => console.log(rep))
 },
 
 exports.getOneUser = (req, res, next) => {
@@ -197,7 +195,6 @@ exports.modifyUser = (req, res, next) => {
 
   exports.addMoney = (req, res, next) => {
     let { email, montant } = req.body;
-    console.log(req.body)
     if (!montant) { res.send(err) }
     Users.findOneAndUpdate({ email: email }
       , {
@@ -211,8 +208,8 @@ exports.modifyUser = (req, res, next) => {
   },
 
   exports.archiveMoney = (req, res, next) => {
-    let { email } = req.body.x;
-    let { argent } = req.body.y
+    let { email } = req.body
+    let { argent } = req.body
     Users.findOneAndUpdate({ email: email }
       , {
         $pull: { montant: argent },
@@ -226,8 +223,8 @@ exports.modifyUser = (req, res, next) => {
   },
 
   exports.archiveEuros = (req, res, next) => {
-    let { email } = req.body.x;
-    let { argent } = req.body.y
+    let { email } = req.body;
+    let { argent } = req.body
     Users.findOneAndUpdate({ email: email }
       , {
         $pull: { montantEuro: argent },
@@ -243,7 +240,7 @@ exports.modifyUser = (req, res, next) => {
   },
 
   exports.transactionDone = (req, res, next) => {
-    let email = req.body.x;
+    let email = req.body
     Users.findOneAndUpdate({ email: email.email },
       { $set: { awaiting: false } },
       { new: true },
@@ -254,7 +251,7 @@ exports.modifyUser = (req, res, next) => {
   },
 
   exports.transtactionEuroDone = (req, res, next) => {
-    let email = req.body.x
+    let email = req.body
     Users.findOneAndUpdate({ email: email.email },
       { $set: { awaitingEuro: false } },
       { new: true },

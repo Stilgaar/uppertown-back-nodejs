@@ -5,7 +5,7 @@ const allTransSchema = new Schema({
   lastname: { type: String },
   annonceId: { type: String },
   amountStableCoins: { type: String },
-  users: { type: Schema.Types.ObjectId, ref: 'Users' }
+  users: { type: mongoose.Schema.Types.ObjectId, ref: 'Users' }
 });
 
 const userSchema = new Schema({
@@ -30,11 +30,10 @@ const userSchema = new Schema({
   awaitingEuro: { type: Boolean, default: false },
   montantEuro: { type: Array, default: [] },
   ancientMontantsEuro: { type: Array, default: [] },
-  allTrans: { type: Schema.Types.ObjectId, ref: 'Alltrans' }
+  allTrans: { type: mongoose.Schema.Types.ObjectId, ref: 'Alltrans'}
 });
 
-const Users = mongoose.model('Users', userSchema)
-const Alltrans = mongoose.model('Alltrans', allTransSchema)
+const Users = mongoose.model('Users', userSchema, 'Users')
+const Alltrans = mongoose.model('Alltrans', allTransSchema, 'Alltrans')
 
 module.exports = { Users, Alltrans }
-

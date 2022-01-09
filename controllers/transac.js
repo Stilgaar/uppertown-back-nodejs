@@ -7,15 +7,14 @@ const transac = {
     oneTransac(req, res, next) {
 
         let { lastname, id, annonceId, amountStableCoins } = req.body
-        console.log(req.body)
-
+        
         Alltrans.create({
             lastname: lastname,
             users: id,
             annonceId: annonceId,
             amountStableCoins: amountStableCoins
         })
-            .then(() => res.send('Engeristré dans la BD'))
+            .then((rep) => res.send(rep))
             .catch(err => res.send(err))
     }
 }
