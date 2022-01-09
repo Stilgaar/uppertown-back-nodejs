@@ -54,6 +54,13 @@ exports.getAllUsers = (req, res, next) => {
   );
 };
 
+exports.getALlTransacs = (req,res,next) => {
+  console.log(req.params)
+Users.findOne({_id: req.params.id})
+.populate('Alltrans')
+.then((rep) => res.send(rep))
+},
+
 exports.getOneUser = (req, res, next) => {
   Users.findOne({
     _id: req.params.id,

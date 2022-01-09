@@ -16,8 +16,7 @@ router.post('/archiveMoney', userCtrl.archiveMoney)
 router.post('/archiveEuros', userCtrl.archiveEuros)
 router.post('/transactionDone', userCtrl.transactionDone)
 router.post('/transtactionEuroDone', userCtrl.transtactionEuroDone)
-//router.put('/:id', userCtrl.modifyUser);
-router.get('/:id', userCtrl.getOneUser); // fait planter les routes qu'on mets derrière
+router.get('/transacs/:id', userCtrl.getALlTransacs)
 
 module.exports = router;
 

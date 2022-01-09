@@ -97,7 +97,6 @@ const upload = {
     newUpId(req, res) {
         uppingId(req, res, (err) => {
             let { email } = req.body;
-            console.log(req.file)
             if (err) { res.send(err) }
             else {
                 if (req.file == undefined) { res.send(err) }
@@ -115,7 +114,9 @@ const upload = {
     newUpJdd(req, res) {
         uppingJdd(req, res, (err) => {
             let { email } = req.body;
+            console.log(req.file)
             if (err) { res.send(err) }
+            else { if (req.file == undefined) { res.send(err) }
             else (Users.findOneAndUpdate({ email: email }
                 , { $push: { JDD: `${req.protocol}://${req.get("host")}/private/upload/jdd/${req.file.filename}` } }
                 , { new: true }
@@ -123,6 +124,7 @@ const upload = {
                     if (err) { res.send(err) }
                     else { res.send(change) }
                 }))
+            }
         })
     },
 
