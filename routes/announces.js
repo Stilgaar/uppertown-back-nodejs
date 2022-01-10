@@ -1,13 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const announces = require('../controllers/announces');
 const annoncejeff = require('../controllers/announcejeff')
 
-router.get('/allAnnounces', announces.getAnnounces)
+router.get('/allAnnounces', annoncejeff.getAnnounces)
 router.post('/creatannouncewithpics', annoncejeff.createAnnounces)
-router.get('/:id', announces.getOneAnnounces);
-router.put('/:id', announces.modifyAnnounces);
-router.delete('/:id', announces.deleteAnnounces);
-
+router.get('/:id', annoncejeff.getOneAnnounces);
+router.delete('/:id', annoncejeff.deleteAnnounces);
 
 module.exports = router;

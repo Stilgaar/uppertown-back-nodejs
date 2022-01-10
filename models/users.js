@@ -1,12 +1,16 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
-const allTransSchema = new Schema({
-  lastname: { type: String },
+// shema pour toutes les transactions séparés. 
+const transSchema = new Schema({
   annonceId: { type: String },
-  amountStableCoins: { type: String },
-  users: { type: mongoose.Schema.Types.ObjectId, ref: 'Users' }
+  amountStableCoins: { type: Number },
+  users: { type: Schema.Types.ObjectId, ref: 'Users' },
 });
+
+const propSchema = new Schema({
+  test: { type: String }
+})
 
 const userSchema = new Schema({
   firstname: { type: String },
@@ -30,10 +34,10 @@ const userSchema = new Schema({
   awaitingEuro: { type: Boolean, default: false },
   montantEuro: { type: Array, default: [] },
   ancientMontantsEuro: { type: Array, default: [] },
-  allTrans: { type: mongoose.Schema.Types.ObjectId, ref: 'Alltrans'}
+  trans: [{ type: Schema.Types.ObjectId, ref: 'trans' }]
+
 });
 
-const Users = mongoose.model('Users', userSchema, 'Users')
-const Alltrans = mongoose.model('Alltrans', allTransSchema, 'Alltrans')
-
-module.exports = { Users, Alltrans }
+const trans = mongoose.model('trans', transSchema)
+const Users = mongoose.model('Users', userSchema)
+module.exports = { Users, trans }

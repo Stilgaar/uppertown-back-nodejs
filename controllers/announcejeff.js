@@ -2,6 +2,8 @@ const multer = require('multer');
 const path = require('path');
 const Announces = require("../models/announces");
 
+
+// partie Multer gérant l'arrivée des images
 const storageImages = multer.diskStorage({
     destination: `image`,
     filename: function (req, file, cb) {
@@ -33,10 +35,10 @@ const uppingImage = multer({
     }
 }).array('image', 5)
 
+// gestion des annonces
 const annoncejeff = {
-
+    // création de l'annonce
     createAnnounces(req, res) {
-
         uppingImage(req, res, (err) => {
 
             let { title, content, city, zip_code, region, type,
@@ -73,6 +75,29 @@ const annoncejeff = {
                     });
             }
         })
+    },
+
+    // recuperation de toutes les annonces
+    getAnnounces(req, res, next) {
+        Announces.find({})
+            .then(announces => res.send(announces))
+            .catch(err => res.send(err))
+    },
+
+    // supprimer une anonce
+    deleteAnnounces(req, res, next) {
+        Announces.deleteOne({ _id: req.params.id })
+            .then(() => res.rend('supprimé'))
+            .catch(err => res.send(err))
+    },
+
+    getOneAnnounces(req, res, next) {
+        console.log(req.body)
+        console.log(req.params)
+        Announces.findOne({ _id: req.params.id, })
+            .then(announce => res.send(announce))
+            .catch(err => res.send(err))
+
     }
 }
 
