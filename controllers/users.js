@@ -52,25 +52,31 @@ exports.getAllUsers = (req, res, next) => {
     );
 };
 
-exports.getALlTransacs = async (req, res, next) => {
+exports.getALlTransacs = (req, res, next) => {
   Users.findOne({ _id: req.params.id })
     .populate('trans')
     .then((rep) => res.send(rep.trans))
 },
 
-  exports.getOneUser = (req, res, next) => {
-    Users.findOne({
-      _id: req.params.id,
+  exports.getAllProps = (req, res, next) => {
+    Users.findOne({ _id: req.params.id })
+      .populate('props')
+      .then(rep => res.send(rep.props))
+  }
+
+exports.getOneUser = (req, res, next) => {
+  Users.findOne({
+    _id: req.params.id,
+  })
+    .then((user) => {
+      res.status(200).json(user);
     })
-      .then((user) => {
-        res.status(200).json(user);
-      })
-      .catch((error) => {
-        res.status(404).json({
-          error: error,
-        });
+    .catch((error) => {
+      res.status(404).json({
+        error: error,
       });
-  };
+    });
+};
 
 exports.getToken = (req, res, next) => {
   const authorization = req.headers.authorization;

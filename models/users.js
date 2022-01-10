@@ -15,7 +15,6 @@ const propSchema = new Schema({
   users: { type: Schema.Types.ObjectId, ref: 'props' },
 })
 
-
 // schema pour l'user
 const userSchema = new Schema({
   firstname: { type: String },
@@ -41,9 +40,9 @@ const userSchema = new Schema({
   ancientMontantsEuro: { type: Array, default: [] },
   trans: [{ type: Schema.Types.ObjectId, ref: 'trans' }],
   props: [{ type: Schema.Types.ObjectId, ref: 'props' }]
-
 });
 
+const props = mongoose.model('props', propSchema)
 const trans = mongoose.model('trans', transSchema)
 const Users = mongoose.model('Users', userSchema)
-module.exports = { Users, trans }
+module.exports = { Users, trans, props }

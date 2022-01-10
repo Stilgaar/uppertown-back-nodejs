@@ -17,6 +17,7 @@ router.post('/archiveEuros', userCtrl.archiveEuros)
 router.post('/transactionDone', userCtrl.transactionDone)
 router.post('/transtactionEuroDone', userCtrl.transtactionEuroDone)
 router.get('/transacs/:id', userCtrl.getALlTransacs)
+router.get('/props/:id', userCtrl.getAllProps)
 
 module.exports = router;
 
