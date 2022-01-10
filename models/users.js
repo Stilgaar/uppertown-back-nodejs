@@ -8,10 +8,15 @@ const transSchema = new Schema({
   users: { type: Schema.Types.ObjectId, ref: 'Users' },
 });
 
+// schema pour le nombre de parts dans le bien
 const propSchema = new Schema({
-  test: { type: String }
+  annonceId: { type: String },
+  amountStableCoins: { type: Number },
+  users: { type: Schema.Types.ObjectId, ref: 'props' },
 })
 
+
+// schema pour l'user
 const userSchema = new Schema({
   firstname: { type: String },
   lastname: { type: String },
@@ -34,7 +39,8 @@ const userSchema = new Schema({
   awaitingEuro: { type: Boolean, default: false },
   montantEuro: { type: Array, default: [] },
   ancientMontantsEuro: { type: Array, default: [] },
-  trans: [{ type: Schema.Types.ObjectId, ref: 'trans' }]
+  trans: [{ type: Schema.Types.ObjectId, ref: 'trans' }],
+  props: [{ type: Schema.Types.ObjectId, ref: 'props' }]
 
 });
 

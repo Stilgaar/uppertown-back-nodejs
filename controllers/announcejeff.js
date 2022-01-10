@@ -92,8 +92,6 @@ const annoncejeff = {
     },
 
     getOneAnnounces(req, res, next) {
-        console.log(req.body)
-        console.log(req.params)
         Announces.findOne({ _id: req.params.id, })
             .then(announce => res.send(announce))
             .catch(err => res.send(err))

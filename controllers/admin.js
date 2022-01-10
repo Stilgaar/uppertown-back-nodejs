@@ -26,7 +26,6 @@ const admin = {
 
     verifAVIS(req, res, next) {
         let email = req.body;
-        console.log(email)
         Users.findOneAndUpdate({ email: email.email }
             , { $set: { userType: "userType4" } }
             , { new: true }, (err, newType) => {
@@ -38,7 +37,6 @@ const admin = {
 
     goAdmin(req, res, next) {
         let email = req.body;
-        console.log(req.body)
         Users.findOneAndUpdate({ email: email.email }
             , { $set: { isAdmin: true } }
             , { new: true }, (err, newType) => {

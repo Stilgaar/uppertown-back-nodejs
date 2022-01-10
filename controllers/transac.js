@@ -32,3 +32,8 @@ const transac = {
 }
 
 module.exports = transac;
+
+// find one and update => rechercher l'annonce avec l'id
+// s'il trouve il rajoute le SC à ceux qu'il a déjà
+// s'il trouve pas id il tombe dans l'erreur
+// il crée une nouvelle entrée
