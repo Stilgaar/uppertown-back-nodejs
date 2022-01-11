@@ -1,6 +1,8 @@
 const { Users, trans, props } = require('../models/users');
+const Announces = require("../models/announces");
 
 // ce qui se passe au moment du click lorsque l'on achète des SC sur un bien immo
+let date = new Date;
 
 const transac = {
 
@@ -24,12 +26,21 @@ const transac = {
                     }
                     , { new: true }
                     , (err, pushed) => {
-                        if (err) { err }
-                        else { console.log('nouvelle transaction crée') }
-                    })
+                        if (err) { console.log(1, err) }
+                        else { console.log('**** 1 nouvelle transaction crée') }
+                    }).clone().catch(err => console.log(err))
 
-            })
-            .catch(err => res.send(err))
+                Announces.findOneAndUpdate({ _id: annonceId }
+                    , {
+                        $push: { historyTrans: rep._id },
+                        $inc: { share_number: - Number(rep.amountStableCoins) }
+                    }
+                    , { new: true }
+                    , (err, pushed) => {
+                        if (err) { console.log(3, err) }
+                        else { console.log('**** 2 transaction sauvgardée dans l\'annonce') }
+                    }).clone().catch(err => console.log(err))
+            }).catch(err => console.log(err))
 
         // fonction créant une nouvelle proprieté si la personne n'en avait pas déjà des parts. 
         props.findOneAndUpdate({ annonceId: annonceId }
@@ -38,33 +49,35 @@ const transac = {
             }
             , { new: true }
             , (err, newprop) => {
-                if (err) { res.send(err) }
+                if (err) { console.log(6, err) }
                 if (!newprop) {
                     props.create({
                         annonceId,
                         amountStableCoins,
                         users: id
-                    })
-                        .then((rep) => {
-                            Users.findOneAndUpdate({ _id: id }
-                                , {
-                                    $push: { props: rep._id },
-                                }
-                                , { new: true }
-                                , (err, done) => {
-                                    if (err) { err }
-                                    else {
-                                        console.log('transaction ajoutée au props crée')
-                                    }
-                                })
-                        })
-                        .catch(err => res.send(err))
-                } else {
-                    console.log('nouveau bien dans props');
-                    res.send("done")
-                }
-            }
-        )
+                    }).then((rep) => {
+                        Users.findOneAndUpdate({ _id: id }
+                            , {
+                                $push: { props: rep._id },
+                            }
+                            , { new: true }
+                            , (err, done) => {
+                                if (err) { console.log(7, err) }
+                                else { console.log('**** 3 transaction ajoutée au props crée') }
+                            }).clone().catch(err => console.log(err))
+
+                        Announces.findOneAndUpdate({ _id: annonceId }
+                            , {
+                                $push: { historyProps: rep._id }
+                            }
+                            , { new: true }
+                            , (err, pushed) => {
+                                if (err) { console.log(3, err) }
+                                else { console.log('**** 4 Prop sauvgardée dans l\'annonce') }
+                            }).clone().catch(err => console.log(8, err))
+                    }).catch(err => console.log(err))
+                } else { res.send('done') }
+            })
     }
 }
 

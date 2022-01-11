@@ -128,26 +128,6 @@ exports.login = (req, res, next) => {
     .catch(error => res.status(500).json({ error }));
 };
 
-exports.modifySC = (req, res, next) => {
-  Users.findOne({
-    _id: req.params.id,
-  })
-    .then((user) => {
-      user.stableCoins = req.body.stableCoins
-      user.updateOne({
-        stableCoins: user.stableCoins
-      }, function (err, result) {
-        if (err) {
-          // console.log(err)
-          res.status(500).json({ message: "une erreur s'est produite" });
-        } else {
-          //console.log("Result :", result) 
-          res.json({ message: "image mise à jour" });
-        }
-      });
-    });
-};
-
 exports.modifyUser = (req, res, next) => {
   let {
     newfirstname,

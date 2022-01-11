@@ -3,16 +3,19 @@ const { Schema } = mongoose;
 
 // shema pour toutes les transactions séparés. 
 const transSchema = new Schema({
-  annonceId: { type: String },
+  annonceId: { type: Schema.Types.ObjectId, ref: 'Announces' },
   amountStableCoins: { type: Number },
+  created: { type: String, default: new Date },
   users: { type: Schema.Types.ObjectId, ref: 'Users' },
+
 });
 
 // schema pour le nombre de parts dans le bien
 const propSchema = new Schema({
-  annonceId: { type: String },
+  annonceId: { type: Schema.Types.ObjectId, ref: 'Announces' },
   amountStableCoins: { type: Number },
-  users: { type: Schema.Types.ObjectId, ref: 'props' },
+  created: { type: String, default: new Date },
+  users: { type: Schema.Types.ObjectId, ref: 'Users' },
 })
 
 // schema pour l'user
@@ -38,6 +41,7 @@ const userSchema = new Schema({
   awaitingEuro: { type: Boolean, default: false },
   montantEuro: { type: Array, default: [] },
   ancientMontantsEuro: { type: Array, default: [] },
+  created: { type: String, default: new Date },
   trans: [{ type: Schema.Types.ObjectId, ref: 'trans' }],
   props: [{ type: Schema.Types.ObjectId, ref: 'props' }]
 });

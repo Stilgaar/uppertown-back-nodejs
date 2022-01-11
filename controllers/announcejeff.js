@@ -38,15 +38,22 @@ const uppingImage = multer({
 // gestion des annonces
 const annoncejeff = {
     // création de l'annonce
-    createAnnounces(req, res) {
-        uppingImage(req, res, (err) => {
 
+
+    createAnnounces(req, res) {
+
+        uppingImage(req, res, (err) => {
             let { title, content, city, zip_code, region, type,
                 bedrooms, surface, price, share_price, gross_rent_by_year,
                 monthly_cost, piscine, tennis, jardin, parking, jaccuzi, share_number } = req.body;
+
+            console.log(req.body)
+            console.log(req.files)
+
             if (err) { res.send(err) }
             else {
 
+                // if (piscine === 'on') { return piscine = "pisince" }
                 Announces.create({
                     share_number,
                     title,
@@ -63,16 +70,9 @@ const annoncejeff = {
                     monthly_cost,
                     options: [piscine, tennis, jardin, parking, jaccuzi],
                     image: req.files.map((images) => `${req.protocol}://${req.get("host")}/image/${images.filename}`)
-                }).then(() => {
-                    res.status(201).json({
-                        message: "Post saved successfully!",
-                    });
                 })
-                    .catch((error) => {
-                        res.status(400).json({
-                            error: error,
-                        });
-                    });
+                    .then(() => { res.send('annonce crée') })
+                    .catch((err) => res.send(err))
             }
         })
     },
