@@ -52,18 +52,21 @@ exports.getAllUsers = (req, res, next) => {
     );
 };
 
+// Toutes les transactions d'un certain user
 exports.getALlTransacs = (req, res, next) => {
   Users.findOne({ _id: req.params.id })
     .populate('trans')
     .then((rep) => res.send(rep.trans))
 },
 
+  // toutes les propriétés d'un certain user
   exports.getAllProps = (req, res, next) => {
     Users.findOne({ _id: req.params.id })
       .populate('props')
       .then(rep => res.send(rep.props))
   }
 
+// un user seulement 
 exports.getOneUser = (req, res, next) => {
   Users.findOne({
     _id: req.params.id,
@@ -78,6 +81,7 @@ exports.getOneUser = (req, res, next) => {
     });
 };
 
+// check s'il y a un token actif, voir aussi si le token n'est pas expiré
 exports.getToken = (req, res, next) => {
   const authorization = req.headers.authorization;
   if (!authorization) { return res.sendStatus(403) };
@@ -95,6 +99,7 @@ exports.getToken = (req, res, next) => {
   })
 };
 
+// login obiviousily
 exports.login = (req, res, next) => {
   Users.findOne({ email: req.body.email })
     .then(user => {
