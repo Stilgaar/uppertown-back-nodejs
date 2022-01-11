@@ -94,11 +94,10 @@ const uppingRib = multer({
 const upload = {
     newUpId(req, res) {
         uppingId(req, res, (err) => {
-            let email = req.body.email
             if (err) { res.send(err) }
             else {
                 if (req.file == undefined) { res.send(err) }
-                else (Users.findOneAndUpdate({ email: email }
+                else (Users.findOneAndUpdate({ _id: req.params.id }
                     , { $push: { pi: `${req.protocol}://${req.get("host")}/private/upload/id/${req.file.filename}` } }
                     , { new: true }
                     , (err, change) => {
@@ -111,28 +110,27 @@ const upload = {
 
     newUpJdd(req, res) {
         uppingJdd(req, res, (err) => {
-            let email = req.body.email
             if (err) { res.send(err) }
-            else { if (req.file == undefined) { res.send(err) }
-            else (Users.findOneAndUpdate({ email: email }
-                , { $push: { JDD: `${req.protocol}://${req.get("host")}/private/upload/jdd/${req.file.filename}` } }
-                , { new: true }
-                , (err, change) => {
-                    if (err) { res.send(err) }
-                    else { res.send(change) }
-                }))
+            else {
+                if (req.file == undefined) { res.send(err) }
+                else (Users.findOneAndUpdate({ _id: req.params.id }
+                    , { $push: { JDD: `${req.protocol}://${req.get("host")}/private/upload/jdd/${req.file.filename}` } }
+                    , { new: true }
+                    , (err, change) => {
+                        if (err) { res.send(err) }
+                        else { res.send(change) }
+                    }))
             }
         })
     },
 
     newUpAvis(req, res) {
         uppingAvis(req, res, (err) => {
-            let email = req.body.email
             if (err) { res.send(err) }
             else {
                 if (req.file == undefined) { res.send(err) }
                 else {
-                    (Users.findOneAndUpdate({ email: email }
+                    (Users.findOneAndUpdate({ _id: req.params.id }
                         , { $push: { avisFiscal: `${req.protocol}://${req.get("host")}/private/upload/avisfiscal/${req.file.filename}` } }
                         , { new: true }
                         , (err, change) => {
@@ -146,11 +144,10 @@ const upload = {
 
     newUpRiB(req, res) {
         uppingRib(req, res, (err) => {
-            let email = req.body.email
             if (err) { res.send(err) }
             else {
                 if (req.file == undefined) { res.send(err) }
-                else (Users.findOneAndUpdate({ email: email }
+                else (Users.findOneAndUpdate({ _id: req.params.id }
                     , { $push: { picrib: `${req.protocol}://${req.get("host")}/private/upload/RiB/${req.file.filename}` } }
                     , { new: true }
                     , (err, change) => {
@@ -162,8 +159,8 @@ const upload = {
     },
 
     supprimerDoc(req, res, next) {
-        let { email, pic } = req.body
-        Users.findOneAndUpdate({ email: email },
+        let { pic } = req.body
+        Users.findOneAndUpdate({ _id: req.params.id },
             { $pull: { pi: pic, JDD: pic, avisFiscal: pic, picrib: pic, rib: pic } })
             .then((data) => res.send(data))
     }

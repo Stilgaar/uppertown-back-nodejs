@@ -3,8 +3,7 @@ const { Users } = require('../models/users');
 const admin = {
 
     verifPi(req, res, next) {
-        let email = req.body
-        Users.findOneAndUpdate({ email: email.email }
+        Users.findOneAndUpdate({ _id: req.params.id }
             , { $set: { userType: "userType2" } }
             , { new: true }, (err, newType) => {
                 if (err) { res.send(err) }
@@ -14,8 +13,7 @@ const admin = {
     },
 
     verifJDD(req, res, next) {
-        let email = req.body;
-        Users.findOneAndUpdate({ email: email.email }
+        Users.findOneAndUpdate({ _id: req.params.id }
             , { $set: { userType: "userType3" } }
             , { new: true }, (err, newType) => {
                 if (err) { res.send(err) }
@@ -25,8 +23,7 @@ const admin = {
     },
 
     verifAVIS(req, res, next) {
-        let email = req.body;
-        Users.findOneAndUpdate({ email: email.email }
+        Users.findOneAndUpdate({ _id: req.params.id }
             , { $set: { userType: "userType4" } }
             , { new: true }, (err, newType) => {
                 if (err) { res.send(err) }
@@ -36,8 +33,7 @@ const admin = {
     },
 
     goAdmin(req, res, next) {
-        let email = req.body;
-        Users.findOneAndUpdate({ email: email.email }
+        Users.findOneAndUpdate({ _id: req.params.id }
             , { $set: { isAdmin: true } }
             , { new: true }, (err, newType) => {
                 if (err) { res.send(err) }
@@ -47,8 +43,7 @@ const admin = {
     },
 
     noAdmin(req, res, next) {
-        let email = req.body;
-        Users.findOneAndUpdate({ email: email.email }
+        Users.findOneAndUpdate({ _id: req.params.id }
             , { $set: { isAdmin: false } }
             , { new: true }, (err, newType) => {
                 if (err) { res.send(err) }

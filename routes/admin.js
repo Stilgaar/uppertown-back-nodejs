@@ -3,11 +3,11 @@ const router = express.Router();
 const admin = require("../controllers/admin")
 const adminData = require("../controllers/adminData")
 
-router.post('/verifPi', admin.verifPi)
-router.post('/verifJDD', admin.verifJDD)
-router.post('/verifAVIS', admin.verifAVIS)
-router.post('/goAdmin', admin.goAdmin)
-router.post('/noAdmin', admin.noAdmin)
+router.post('/verifPi/:id', admin.verifPi)
+router.post('/verifJDD/:id', admin.verifJDD)
+router.post('/verifAVIS/:id', admin.verifAVIS)
+router.post('/goAdmin/:id', admin.goAdmin)
+router.post('/noAdmin/:id', admin.noAdmin)
 
 router.post('/newRib', adminData.addRib)
 router.get('/getRib', adminData.getRib)
