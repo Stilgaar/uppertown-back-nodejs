@@ -28,7 +28,7 @@ const transac = {
                     , (err, pushed) => {
                         if (err) { console.log(1, err) }
                         else { console.log('**** 1 nouvelle transaction crée') }
-                    }).clone().catch(err => console.log(err))
+                    })
 
                 Announces.findOneAndUpdate({ _id: annonceId }
                     , {
@@ -39,8 +39,8 @@ const transac = {
                     , (err, pushed) => {
                         if (err) { console.log(3, err) }
                         else { console.log('**** 2 transaction sauvgardée dans l\'annonce') }
-                    }).clone().catch(err => console.log(err))
-            }).catch(err => console.log(err))
+                    })
+            }).catch(err => console.log(5, err))
 
         // fonction créant une nouvelle proprieté si la personne n'en avait pas déjà des parts. 
         props.findOneAndUpdate({ annonceId: annonceId }
@@ -64,7 +64,7 @@ const transac = {
                             , (err, done) => {
                                 if (err) { console.log(7, err) }
                                 else { console.log('**** 3 transaction ajoutée au props crée') }
-                            }).clone().catch(err => console.log(err))
+                            })
 
                         Announces.findOneAndUpdate({ _id: annonceId }
                             , {
@@ -72,10 +72,10 @@ const transac = {
                             }
                             , { new: true }
                             , (err, pushed) => {
-                                if (err) { console.log(3, err) }
+                                if (err) { console.log(9, err) }
                                 else { console.log('**** 4 Prop sauvgardée dans l\'annonce') }
-                            }).clone().catch(err => console.log(8, err))
-                    }).catch(err => console.log(err))
+                            })
+                    }).catch(err => console.log(10, err))
                 } else { res.send('done') }
             })
     }
