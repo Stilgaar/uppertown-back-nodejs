@@ -101,6 +101,7 @@ exports.getToken = (req, res, next) => {
 
 // login obiviousily
 exports.login = (req, res, next) => {
+  console.log(req.body)
   Users.findOne({ email: req.body.email })
     .then(user => {
       if (!user) {
