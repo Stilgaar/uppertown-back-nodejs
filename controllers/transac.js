@@ -2,7 +2,6 @@ const { Users, trans, props } = require('../models/users');
 const Announces = require("../models/announces");
 
 // ce qui se passe au moment du click lorsque l'on achète des SC sur un bien immo
-let date = new Date;
 
 const transac = {
 

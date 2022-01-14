@@ -47,9 +47,6 @@ const annoncejeff = {
                 bedrooms, surface, price, share_price, gross_rent_by_year,
                 monthly_cost, piscine, tennis, jardin, parking, jaccuzi, share_number } = req.body;
 
-            console.log(req.body)
-            console.log(req.files)
-
             if (err) { res.send(err) }
             else {
 

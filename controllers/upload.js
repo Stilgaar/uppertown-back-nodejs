@@ -93,7 +93,9 @@ const uppingRib = multer({
 
 const upload = {
     newUpId(req, res) {
+
         uppingId(req, res, (err) => {
+            console.log(req.file)
             if (err) { res.send(err) }
             else {
                 if (req.file == undefined) { res.send(err) }
