@@ -4,10 +4,10 @@ const jwt = require('jsonwebtoken');
 const saltRounds = 10;
 
 // Inscription // route Signup :
-
 exports.signup = (req, res, next) => {
 
   let { firstname, lastname, brandname, email, tel, password, verifpassword } = req.body;
+
   if (!firstname || !lastname || !email || !tel || !password || !verifpassword) {
     return res.send("Tous les champs ne sont pas remplis")
   }
@@ -41,45 +41,31 @@ exports.signup = (req, res, next) => {
 // Chopper tous les utilisateurs // route Users
 exports.getAllUsers = (req, res, next) => {
   Users.find()
-    .then((user) => {
-      res.status(200).json(user);
-    }).catch(
-      (error) => {
-        res.status(400).json({
-          error: error
-        });
-      }
-    );
+    .then(user => res.send(user))
+    .catch(err => res.send(err))
 };
 
 // Toutes les transactions d'un certain user
 exports.getALlTransacs = (req, res, next) => {
   Users.findOne({ _id: req.params.id })
     .populate('trans')
-    .then((rep) => res.send(rep.trans))
-},
-
-  // toutes les propriétés d'un certain user
-  exports.getAllProps = (req, res, next) => {
-    Users.findOne({ _id: req.params.id })
-      .populate('props')
-      .then(rep => res.send(rep.props))
-  }
-
-// un user seulement 
-exports.getOneUser = (req, res, next) => {
-  Users.findOne({
-    _id: req.params.id,
-  })
-    .then((user) => {
-      res.status(200).json(user);
-    })
-    .catch((error) => {
-      res.status(404).json({
-        error: error,
-      });
-    });
+    .then(rep => res.send(rep.trans))
 };
+
+// toutes les propriétés d'un certain user
+exports.getAllProps = (req, res, next) => {
+  Users.findOne({ _id: req.params.id })
+    .populate('props')
+    .then(rep => res.send(rep.props))
+};
+
+// CHOPPER UN SEUL USER
+exports.getOneUser = (req, res, next) => {
+  Users.findOne({ _id: req.params.id, })
+    .then(user => res.send(user))
+    .catch(error => res.send(err));
+};
+
 
 // check s'il y a un token actif, voir aussi si le token n'est pas expiré
 exports.getToken = (req, res, next) => {
@@ -99,7 +85,7 @@ exports.getToken = (req, res, next) => {
   })
 };
 
-// login obiviousily
+// LOGIN USER
 exports.login = (req, res, next) => {
   console.log(req.body)
   Users.findOne({ email: req.body.email })
@@ -129,6 +115,8 @@ exports.login = (req, res, next) => {
     .catch(error => res.status(500).json({ error }));
 };
 
+
+// MODIF USER
 exports.modifyUser = (req, res, next) => {
   let {
     newfirstname,
@@ -157,102 +145,104 @@ exports.modifyUser = (req, res, next) => {
       if (err) { res.send(err) }
       else { res.send(change) }
     })
-},
+};
 
-  exports.addCoins = (req, res, next) => {
-    Users.findOne({ _id: req.params.id })
-      .then((user) => {
-        user.updateOne({
-          stableCoins: (Number(user.stableCoins) + Number(req.body.stableCoins))
-        }, function (err, result) {
-          if (err) {
-            res.send("Votre compte n'a pu être crédité")
-          } else {
-            res.send("Votre compte a été crédité")
-          }
-        })
+
+// PARTIE ARGENT 
+exports.addCoins = (req, res, next) => {
+  Users.findOne({ _id: req.params.id })
+    .then((user) => {
+      user.updateOne({
+        stableCoins: (Number(user.stableCoins) + Number(req.body.stableCoins))
+      }, function (err, result) {
+        if (err) {
+          res.send("Votre compte n'a pu être crédité")
+        } else {
+          res.send("Votre compte a été crédité")
+        }
       })
-  },
+    })
+};
 
-  exports.archiveMoney = (req, res, next) => {
-    let { argent } = req.body
-    Users.findOneAndUpdate({ _id: req.params.id }
-      , {
-        $pull: { montant: argent },
-        $push: { ancientMontants: `${argent} TRANSFERT FAIT LE ${new Date}` }
+exports.archiveMoney = (req, res, next) => {
+  let { argent } = req.body
+  Users.findOneAndUpdate({ _id: req.params.id }
+    , {
+      $pull: { montant: argent },
+      $push: { ancientMontants: `${argent} TRANSFERT FAIT LE ${new Date}` }
+    },
+    { new: true },
+    (err, archive) => {
+      if (err) { res.send(err) }
+      else { res.send(archive) }
+    })
+};
+
+exports.archiveEuros = (req, res, next) => {
+  let { argent } = req.body
+  Users.findOneAndUpdate({ _id: req.params.id }
+    , {
+      $pull: { montantEuro: argent },
+      $push: { ancientMontantsEuro: `${argent} TRANSFERT FAIT LE ${new Date}` }
+    }
+    ,
+    { new: true },
+    (err, archiveEuro) => {
+      if (err) { res.send(err) }
+      else { res.send(archiveEuro) }
+    }
+  )
+};
+
+exports.transactionDone = (req, res, next) => {
+  Users.findOneAndUpdate({ _id: req.params.id },
+    { $set: { awaiting: false } },
+    { new: true },
+    (err, udpateAwaiting) => {
+      if (err) { res.send(err) }
+      else { res.send(udpateAwaiting) }
+    })
+};
+
+exports.transtactionEuroDone = (req, res, next) => {
+  Users.findOneAndUpdate({ _id: req.params.id },
+    { $set: { awaitingEuro: false } },
+    { new: true },
+    (err, udpateAwaitingEuro) => {
+      if (err) { res.send(err) }
+      else { res.send(udpateAwaitingEuro) }
+    })
+};
+
+exports.askMoney = (req, res, next) => {
+  let { change, theRib, currentStable } = req.body;
+  if (change >= currentStable) { res.send('error') }
+  else {
+    let newChange = parseInt(change)
+    Users.findOneAndUpdate({ _id: req.params.id },
+      {
+        $set: { awaitingEuro: true, stableCoins: currentStable - newChange },
+        $push: { montantEuro: `${change}€ transféré => RIB : ${theRib} le ${new Date}` }
       },
       { new: true },
-      (err, archive) => {
+      (err, updateTransfert) => {
         if (err) { res.send(err) }
-        else { res.send(archive) }
-      })
-  },
-
-  exports.archiveEuros = (req, res, next) => {
-    let { argent } = req.body
-    Users.findOneAndUpdate({ _id: req.params.id }
-      , {
-        $pull: { montantEuro: argent },
-        $push: { ancientMontantsEuro: `${argent} TRANSFERT FAIT LE ${new Date}` }
-      }
-      ,
-      { new: true },
-      (err, archiveEuro) => {
-        if (err) { res.send(err) }
-        else { res.send(archiveEuro) }
-      }
-    )
-  },
-
-  exports.transactionDone = (req, res, next) => {
-    Users.findOneAndUpdate({ _id: req.params.id },
-      { $set: { awaiting: false } },
-      { new: true },
-      (err, udpateAwaiting) => {
-        if (err) { res.send(err) }
-        else { res.send(udpateAwaiting) }
-      })
-  },
-
-  exports.transtactionEuroDone = (req, res, next) => {
-    Users.findOneAndUpdate({ _id: req.params.id },
-      { $set: { awaitingEuro: false } },
-      { new: true },
-      (err, udpateAwaitingEuro) => {
-        if (err) { res.send(err) }
-        else { res.send(udpateAwaitingEuro) }
-      })
-  },
-
-  exports.askMoney = (req, res, next) => {
-    let { change, theRib, currentStable } = req.body;
-    if (change >= currentStable) { res.send('error') }
-    else {
-      let newChange = parseInt(change)
-      Users.findOneAndUpdate({ _id: req.params.id },
-        {
-          $set: { awaitingEuro: true, stableCoins: currentStable - newChange },
-          $push: { montantEuro: `${change}€ transféré => RIB : ${theRib} le ${new Date}` }
-        },
-        { new: true },
-        (err, updateTransfert) => {
-          if (err) { res.send(err) }
-          else { res.send(updateTransfert) }
-        })
-    }
-
-  },
-
-  exports.addMoney = (req, res, next) => {
-    let { montant } = req.body;
-    if (!montant) { res.send(err) }
-    Users.findOneAndUpdate({ _id: req.params.id }
-      , {
-        $push: { montant: `${montant} SC demandé le ${new Date}` }
-        , $set: { awaiting: true }
-      }
-      , { new: true }, (err, money) => {
-        if (err) { res.send(err) }
-        else res.send(money)
+        else { res.send(updateTransfert) }
       })
   }
+
+};
+
+exports.addMoney = (req, res, next) => {
+  let { montant } = req.body;
+  if (!montant) { res.send(err) }
+  Users.findOneAndUpdate({ _id: req.params.id }
+    , {
+      $push: { montant: `${montant} SC demandé le ${new Date}` }
+      , $set: { awaiting: true }
+    }
+    , { new: true }, (err, money) => {
+      if (err) { res.send(err) }
+      else res.send(money)
+    })
+};
