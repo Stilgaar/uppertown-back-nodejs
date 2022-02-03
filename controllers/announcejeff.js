@@ -76,8 +76,11 @@ const annoncejeff = {
 
     // recuperation de toutes les annonces
     getAnnounces(req, res, next) {
-        Announces.find({})
-            .then(announces => res.send(announces))
+        Announces.find()
+            .select(['-content', '-share_price', '-gross_rent_by_year', '-zip_code', '-share_number', '-monthly_cost', '-created', '-historyProps', '-historyTrans'])
+            .then(announces => {
+                res.send(announces)
+            })
             .catch(err => res.send(err))
     },
 
