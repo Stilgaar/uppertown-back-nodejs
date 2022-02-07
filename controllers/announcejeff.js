@@ -38,8 +38,6 @@ const uppingImage = multer({
 // gestion des annonces
 const annoncejeff = {
     // création de l'annonce
-
-
     createAnnounces(req, res) {
 
         uppingImage(req, res, (err) => {
@@ -47,10 +45,12 @@ const annoncejeff = {
                 bedrooms, surface, price, share_price, gross_rent_by_year,
                 monthly_cost, piscine, tennis, jardin, parking, jaccuzi, share_number } = req.body;
 
+            console.log(req.body)
+            console.log(req.file)
+
             if (err) { res.send(err) }
             else {
 
-                // if (piscine === 'on') { return piscine = "pisince" }
                 Announces.create({
                     share_number,
                     title,
@@ -78,9 +78,7 @@ const annoncejeff = {
     getAnnounces(req, res, next) {
         Announces.find()
             .select(['-content', '-share_price', '-gross_rent_by_year', '-zip_code', '-share_number', '-monthly_cost', '-created', '-historyProps', '-historyTrans'])
-            .then(announces => {
-                res.send(announces)
-            })
+            .then(announces => res.send(announces))
             .catch(err => res.send(err))
     },
 

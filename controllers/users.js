@@ -7,6 +7,7 @@ const saltRounds = 10;
 exports.signup = (req, res, next) => {
 
   let { firstname, lastname, brandname, email, tel, password, verifpassword } = req.body;
+  console.log(req.body)
 
   if (!firstname || !lastname || !email || !tel || !password || !verifpassword) {
     return res.send("Tous les champs ne sont pas remplis")
@@ -87,7 +88,6 @@ exports.getToken = (req, res, next) => {
 
 // LOGIN USER
 exports.login = (req, res, next) => {
-  console.log(req.body)
   Users.findOne({ email: req.body.email })
     .then(user => {
       if (!user) {
@@ -118,6 +118,7 @@ exports.login = (req, res, next) => {
 
 // MODIF USER
 exports.modifyUser = (req, res, next) => {
+
   let {
     newfirstname,
     newlastname,

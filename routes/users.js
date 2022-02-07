@@ -1,20 +1,24 @@
 const express = require('express');
 const router = express.Router();
 const userCtrl = require('../controllers/users');
+let multer = require('multer')
+let upload = multer()
 
-router.post('/signup', userCtrl.signup);
-router.post('/login', userCtrl.login);
+router.post('/signup', upload.fields([]), userCtrl.signup);
+router.post('/login', upload.fields([]), userCtrl.login);
+router.post('/modifyUser/:id', upload.fields([]), userCtrl.modifyUser);
+router.post('/addCoins/:id', upload.fields([]), userCtrl.addCoins);
+
+router.post('/addMoney/:id', upload.fields([]), userCtrl.addMoney)
+router.post('/askMoney/:id', upload.fields([]), userCtrl.askMoney)
+router.post('/archiveMoney/:id', upload.fields([]), userCtrl.archiveMoney)
+router.post('/archiveEuros/:id', upload.fields([]), userCtrl.archiveEuros)
+router.post('/transactionDone/:id', upload.fields([]), userCtrl.transactionDone)
+router.post('/transtactionEuroDone/:id', upload.fields([]), userCtrl.transtactionEuroDone)
+
 router.get('/users', userCtrl.getAllUsers);
 router.get('/token', userCtrl.getToken);
-router.post('/modifyUser/:id', userCtrl.modifyUser);
-router.post('/addCoins/:id', userCtrl.addCoins);
 router.get('/:id', userCtrl.getOneUser);
-router.post('/addMoney/:id', userCtrl.addMoney)
-router.post('/askMoney/:id', userCtrl.askMoney)
-router.post('/archiveMoney/:id', userCtrl.archiveMoney)
-router.post('/archiveEuros/:id', userCtrl.archiveEuros)
-router.post('/transactionDone/:id', userCtrl.transactionDone)
-router.post('/transtactionEuroDone/:id', userCtrl.transtactionEuroDone)
 router.get('/transacs/:id', userCtrl.getALlTransacs)
 router.get('/props/:id', userCtrl.getAllProps)
 
