@@ -7,6 +7,7 @@ router.post('/creatannouncewithpics', annoncejeff.createAnnounces)
 
 // avoir toutes les annonces, spécifiquement pour l'interface announce
 router.get('/allAnnounces', annoncejeff.getAnnounces)
+router.get('/randomAnnounce', annoncejeff.randomAnnounce)
 
 // todo : 
 // une route pour la page d'acceuil avec une annonce unique avec le math random dans le back

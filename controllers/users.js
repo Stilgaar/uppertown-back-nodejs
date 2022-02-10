@@ -42,6 +42,20 @@ exports.signup = (req, res, next) => {
 // Chopper tous les utilisateurs // route Users
 exports.getAllUsers = (req, res, next) => {
   Users.find()
+    .select([
+      '-adress',
+      '-ancientMontants',
+      '-ancientMontantsEuro',
+      '-brandname',
+      '-created',
+      '-montant',
+      '-montantEuro',
+      '-password',
+      '-props',
+      '-stableCoins',
+      '-tel',
+      '-trans',
+      '-rib'])
     .then(user => res.send(user))
     .catch(err => res.send(err))
 };

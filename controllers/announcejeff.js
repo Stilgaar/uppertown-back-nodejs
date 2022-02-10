@@ -45,12 +45,8 @@ const annoncejeff = {
                 bedrooms, surface, price, share_price, gross_rent_by_year,
                 monthly_cost, piscine, tennis, jardin, parking, jaccuzi, share_number } = req.body;
 
-            console.log(req.body)
-            console.log(req.file)
-
             if (err) { res.send(err) }
             else {
-
                 Announces.create({
                     share_number,
                     title,
@@ -77,7 +73,16 @@ const annoncejeff = {
     // recuperation de toutes les annonces
     getAnnounces(req, res, next) {
         Announces.find()
-            .select(['-content', '-share_price', '-gross_rent_by_year', '-zip_code', '-share_number', '-monthly_cost', '-created', '-historyProps', '-historyTrans'])
+            .select([
+                '-content',
+                '-share_price',
+                '-gross_rent_by_year',
+                '-zip_code',
+                '-share_number',
+                '-monthly_cost',
+                '-created',
+                '-historyProps',
+                '-historyTrans'])
             .then(announces => res.send(announces))
             .catch(err => res.send(err))
     },
@@ -93,6 +98,31 @@ const annoncejeff = {
         Announces.findOne({ _id: req.params.id, })
             .then(announce => res.send(announce))
             .catch(err => res.send(err))
+    },
+
+    randomAnnounce(req, res, next) {
+        Announces.find()
+            .select([
+                '-content',
+                '-created',
+                '-gross_rent_by_year',
+                '-historyProps',
+                '-historyTrans',
+                '-monthly_cost',
+                '-options',
+                '-price',
+                '-share_number',
+                '-share_price',
+                '-surface',
+                '-type',
+                '-zip_code',
+                '-bedroom',
+                '-_id'])
+            .then(announce => {
+                let announceRandom = announce[Math.floor(Math.random() * announce.length)];
+                res.send(announceRandom)
+            })
+            .catch(err => console.log(err))
 
     }
 }
